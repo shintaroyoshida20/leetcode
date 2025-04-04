@@ -116,6 +116,7 @@ var detectCycle = function(head) {
 * 1つの変数名が複数の意味を持つのを避けるため、変数を付け直す形で実装した。
 
 * フロイドの循環検出法を学んだ。
+  参考) [Wikipedia Cycle detection](https://en.wikipedia.org/wiki/Cycle_detection)
   * ノードの開始から、サイクルの開始までの距離をF
   * サイクルの開始から衝突までの距離をA
   * 衝突からサイクル終了までの距離をBとする。
