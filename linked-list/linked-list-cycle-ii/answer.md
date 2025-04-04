@@ -87,7 +87,7 @@ var detectCycle = function(head) {
 
 ## STEP 3
 
-```
+```javascript
 var detectCycle = function(head) {
     if (head === null || head.next === null) return null
     let fast_node = head.next.next
