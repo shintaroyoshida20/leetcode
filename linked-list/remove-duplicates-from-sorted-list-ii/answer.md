@@ -2,9 +2,10 @@
 
 ## STEP 1
 
-### 解き方
+### 問題を解く際に考えたこと 
+
 * 先頭から進める
-  * previous,current,nextを設定する。
+  * previous,current,nextを初期化する。
   * current とNextが一致していた場合
     * currentをnextに更新する。
       --> それ以上先に進めなかった。
@@ -13,10 +14,7 @@
   * 自分と次の人が重複なし
     * previousとcurrentを更新する。
   
-
-### 解法
-
-* 番兵を使う解法
+### 番兵を使う解法
 
 ```javascript
 var deleteDuplicates = function(head) {
@@ -75,6 +73,7 @@ var deleteDuplicates = function(head) {
 ```
 
 ### 番兵を使わない解法
+
 番兵を使う方法をもとに、使わない方法を作成した.
 
 * `first_non_duplicate_node` を追加し、こちらの変数を関数の返り値にした 
