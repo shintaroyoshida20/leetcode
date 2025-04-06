@@ -72,16 +72,14 @@ var deleteDuplicates = function(head) {
 * 情報量は同じだと考えたので、nullチェックを短縮記法に切り替えた。
 
   * 変更前
-
-```
-    while (current !== null && current.next !== null) {
-```
+    ```
+        while (current !== null && current.next !== null) {
+    ```
 
   * 変更後
-
-```
-    while (current && current.next) {
-```
+    ```
+        while (current && current.next) {
+    ```
 
 ### 解法
 
