@@ -89,11 +89,16 @@ var deleteDuplicates = function(head) {
 var deleteDuplicates = function(head) {
     let current = head
     while (current && current.next) {
+        // 値が異なるノードが見つかるまで探索する。
         let nextNode = current.next
         while (nextNode && current.val === nextNode.val) {
             nextNode = nextNode.next
         }
+
+        // 現在のノードのむき先を更新する。
         current.next = nextNode
+
+        // 現在のノードを更新する。
         current = nextNode
     }
     return head
