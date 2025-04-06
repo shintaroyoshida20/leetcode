@@ -165,4 +165,5 @@ var deleteDuplicates = function(head) {
   * すごく読みやすかった。
 
 * iroafternoonのコード https://github.com/irohafternoon/LeetCode/pull/5/files#r2008711802
-  * メモリの領域を意識してコードが書けていないので、以下のDiscordで単語を理解する https://discord.com/channels/1084280443945353267/1237649827240742942/1251960606077091981
+  * メモリの領域(コード領域、データ領域、スタック領域、ヒープ領域)を意識してコードが書けていない https://discord.com/channels/1084280443945353267/1237649827240742942/1251960606077091981
+  * まず単語を理解するところから始める。
