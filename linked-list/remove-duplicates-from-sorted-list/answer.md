@@ -48,6 +48,8 @@ var deleteDuplicates = function(head) {
       * 値が違う場合には、次のノードに進む。
       * 値が同じ場合には、自分のノードのむき先を次の次のノードに向ける。
 
+* 感想
+
 ```javascript
 var deleteDuplicates = function(head) {
     let current = head
@@ -67,7 +69,7 @@ var deleteDuplicates = function(head) {
 
 ### 感想
 
-* 解法(1) の方が、コードが読みやすいと感じたため、解法(1)を採用した。
+* 解法(1) の方が、コードが読みやすいと感じたため解法(1)を採用した。
 
 * 情報量は同じだと考えたので、nullチェックを短縮記法に切り替えた。
 
@@ -105,11 +107,6 @@ var deleteDuplicates = function(head) {
 
 ## STEP 3
 
-### 感想
-
-* 頭で考えたことをコードに落とし込めたことがよかった。
-  * いきなりコードを書かずに、解法の戦略を練ってから解くことを意識する。
-
 ```javascript
 var deleteDuplicates = function(head) {
     let current = head 
@@ -124,3 +121,48 @@ var deleteDuplicates = function(head) {
     return head
 };
 ```
+
+### 感想
+
+* nextNodeが参照渡しなので、currentの変数をそのまま操った方が良いのだろうか? 
+
+  ```
+      let nextNode = current.next
+  ```
+
+### 他の人のコードを読んでみて
+
+
+* hayashi-ay のコード https://github.com/hayashi-ay/leetcode/pull/20/files#diff-80ff6ca59d78b4959fd650d812692c58b6c14de654526a41e909b589ed24e6dcR218-R229
+
+  以下の修正を加えることでコードの可読性が上がった。elseを消せるなら消すようにする。
+
+  * 変更前
+    ```
+        while (current !== null && current.next !== null) {
+            let nextNode = current.next
+            if (current.val === nextNode.val) {
+                current.next = nextNode.next
+            } else {
+                current = nextNode
+            }
+        }
+    ```
+
+  * 変更後
+    ```
+        while (current !== null && current.next !== null) {
+            let nextNode = current.next
+            if (current.val === nextNode.val) {
+                current.next = nextNode.next
+                continue
+            }
+            current = nextNode
+        }
+    ```
+
+* Ryotaro25のコード https://github.com/Ryotaro25/leetcode_first60/pull/3/files#diff-c8b6f462fd73888b238b8adf87cc3916bfdfb2c62841dc01cdef02ec937747c3 
+  * すごく読みやすかった。
+
+* iroafternoonのコード https://github.com/irohafternoon/LeetCode/pull/5/files#r2008711802
+  * メモリの領域を意識してコードが書けていないので、以下のDiscordを追う https://discord.com/channels/1084280443945353267/1237649827240742942/1251960606077091981
