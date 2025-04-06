@@ -88,7 +88,7 @@ var deleteDuplicates = function(head) {
 ```javascript
 var deleteDuplicates = function(head) {
     let current = head
-    while (current && current.next) {
+    while (current) {
         // 値が異なるノードが見つかるまで探索する。
         let nextNode = current.next
         while (nextNode && current.val === nextNode.val) {
@@ -110,7 +110,7 @@ var deleteDuplicates = function(head) {
 ```javascript
 var deleteDuplicates = function(head) {
     let current = head 
-    while (current && current.next) {
+    while (current) {
         let nextNode = current.next
         while (nextNode && current.val === nextNode.val) {
             nextNode = nextNode.next
