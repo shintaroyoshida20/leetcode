@@ -49,12 +49,12 @@ hashMapという変数名だと何を表しているかわからないため、�
 ```javascript
 var hasCycle = function(head) {
     const visited = new Set()
-    let cur = head
-    while (cur !== null) {
-        if (visited.has(cur)) return true
-        visited.add(cur)
+    let node = head
+    while (noe !== null) {
+        if (visited.has(node)) return true
+        visited.add(node)
 
-        cur = cur.next
+        node = node.next
     }
     return false
 }
