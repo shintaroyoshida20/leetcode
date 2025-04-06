@@ -5,11 +5,11 @@
 ```javascript
 var detectCycle = function(head) {
     const visited = new Set()
-    let cur = head 
-    while (cur) {
-        if (visited.has(cur)) return cur
-        visited.add(cur)
-        cur = cur.next
+    let node = head 
+    while (node) {
+        if (visited.has(node)) return node
+        visited.add(node)
+        node = node.next
     }
     return null
 };
