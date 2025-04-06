@@ -50,7 +50,7 @@ hashMapという変数名だと何を表しているかわからないため、�
 var hasCycle = function(head) {
     const visited = new Set()
     let node = head
-    while (noe !== null) {
+    while (node !== null) {
         if (visited.has(node)) return true
         visited.add(node)
 
