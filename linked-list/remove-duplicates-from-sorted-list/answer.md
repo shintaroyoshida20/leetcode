@@ -153,7 +153,7 @@ var deleteDuplicates = function(head) {
     ```
         while (current !== null && current.next !== null) {
             let nextNode = current.next
-            if (nextNode && current.val === nextNode.val) {
+            if (current.val === nextNode.val) {
                 current.next = nextNode.next
                 continue
             }
