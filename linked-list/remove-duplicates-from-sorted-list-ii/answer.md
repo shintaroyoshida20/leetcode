@@ -111,7 +111,7 @@ var deleteDuplicates = function(head) {
 
 ## STEP 3
 
-* 番兵を使う解法
+* 番兵を使わない解法
 
 ```javascript
 var deleteDuplicates = function(head) {
@@ -146,6 +146,9 @@ var deleteDuplicates = function(head) {
 
 ### 感想
 
+* まず、日本語で指示ができる状態を作る。
+
+
 * 連結リストで、初期値が簡単に設定できない場合、番兵を検討する
   * 番兵を使わなくても解けるので、重複したノードがあった際に、SKIPを行うロジックを思いつくことの方がより重要。
 
@@ -168,3 +171,29 @@ var deleteDuplicates = function(head) {
 
   * olsen-blue https://github.com/olsen-blue/Arai60/pull/4/
     * 自分と解法が一致していた。
+
+  * nodchipのコメント node 変数と sentinel 変数のみを用いて処理
+    https://github.com/h1rosaka/arai60/pull/6#discussion_r1740940281 
+
+### 他の人の解法
+
+#### node 変数と sentinel 変数のみを用いて処理
+
+```
+    var deleteDuplicates = function(head) {
+        let sentinel = new ListNode(0, head)
+        let node = sentinel
+    
+        while (node) {
+            if (node.next && node.next.next && node.next.val === node.next.next.val) {
+                while (node.next && node.next.next && node.next.val === node.next.next.val) {
+                    node.next = node.next.next
+                }
+                node.next = node.next.next
+                continue
+            }
+            node = node.next
+        }
+        return sentinel.next
+    };
+```
