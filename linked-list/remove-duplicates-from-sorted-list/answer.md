@@ -27,7 +27,7 @@
 ```javascript
 var deleteDuplicates = function(head) {
     let current = head
-    while (current !== null && current.next !== null) {
+    while (current !== null) {
         let nextNode = current.next
         while (nextNode && current.val === nextNode.val) {
             nextNode = nextNode.next
@@ -53,7 +53,7 @@ var deleteDuplicates = function(head) {
 ```javascript
 var deleteDuplicates = function(head) {
     let current = head
-    while (current !== null && current.next !== null) {
+    while (current !== null) {
         let nextNode = current.next
         if (current.val === nextNode.val) {
             current.next = nextNode.next
@@ -139,9 +139,9 @@ var deleteDuplicates = function(head) {
 
   * 変更前
     ```
-        while (current !== null && current.next !== null) {
+        while (current !== null) {
             let nextNode = current.next
-            if (current.val === nextNode.val) {
+            if (nextNode && current.val === nextNode.val) {
                 current.next = nextNode.next
             } else {
                 current = nextNode
@@ -153,7 +153,7 @@ var deleteDuplicates = function(head) {
     ```
         while (current !== null && current.next !== null) {
             let nextNode = current.next
-            if (current.val === nextNode.val) {
+            if (nextNode && current.val === nextNode.val) {
                 current.next = nextNode.next
                 continue
             }
