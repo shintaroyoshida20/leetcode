@@ -1,0 +1,16 @@
+{
+    "files": ["**", ".*/**", "*/**"],
+    "ignorePaths": [
+        ".git",
+        ".gitignore"
+    ],
+    "caseSensitive": false,
+    "words": [
+      "hayashi",
+      "ryotaro",
+      "shintaro",
+      "leetcode",
+      "fuga",
+      "shintaroyoshida"
+    ]
+}

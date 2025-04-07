@@ -1,0 +1,71 @@
+---
+# @format
+
+# --------
+# Version
+# --------
+version: 2.1
+
+# --------
+# Executor
+# --------
+executors:
+    linter:
+        docker:
+            - image: cimg/node:22.8.0
+        resource_class: small
+
+# ----------------------
+# Enable dynamic config
+# ----------------------
+# setup: true
+
+# --------
+# Orbs
+# --------
+# orbs:
+
+# --------
+# Jobs
+# --------
+jobs:
+    check-spell-and-format:
+        docker:
+            - image: cimg/node:22.8.0
+        resource_class: small
+        steps:
+            - checkout
+            - run:
+                  name: Install npm packages
+                  command: yarn
+            - run:
+                  name: Run spell checker by cspell
+                  command: |
+                      export RESULT=$(./node_modules/.bin/cspell . 2>&1)
+                      echo "[INFO] result message is $RESULT"
+                      if echo "$RESULT" | grep -q 'Issues found: 0 in 0 files.'; then
+                        echo "[INFO] It's ok with the spell-checker."
+                        exit 0
+                      else
+                        echo "[ERROR] There's problem with the spell-checker."
+                        exit 1
+                      fi
+            - run:
+                  name: Run format checker by prettier
+                  command: |
+                      export RESULT=$(./node_modules/.bin/prettier --check . 2>&1)
+                      echo "[INFO] result message is $RESULT"
+                      if echo "$RESULT" | grep -q 'All matched files use Prettier code style!'; then
+                        echo "[INFO] It's ok with the prettier formatter."
+                        exit 0
+                      else
+                        echo "[ERROR] There's problem with the prettier formatter."
+                        exit 1
+                      fi
+# -----------
+# Workflow
+# -----------
+workflows:
+    always-run:
+        jobs:
+            - spell-checker
