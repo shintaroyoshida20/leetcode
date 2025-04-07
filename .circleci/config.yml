@@ -29,7 +29,7 @@ executors:
 # Jobs
 # --------
 jobs:
-    check-spell-and-format:
+    spell-checker:
         docker:
             - image: cimg/node:22.8.0
         resource_class: small
