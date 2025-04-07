@@ -1,0 +1,38 @@
+---
+# @format
+
+version: 2.1
+
+executors:
+    linter:
+        docker:
+            - image: cimg/node:22.8.0
+        resource_class: small
+
+jobs:
+    spell-checker:
+        docker:
+            - image: cimg/node:22.8.0
+        resource_class: small
+        steps:
+            - checkout
+            - run:
+                  name: Install npm packages
+                  command: yarn
+            - run:
+                  name: spell check
+                  command: |
+                      export RESULT=$(./node_modules/.bin/cspell . 2>&1)
+                      echo "[INFO] result message is $RESULT"
+                      if echo "$RESULT" | grep -q 'Issues found: 0 in 0 files.'; then
+                        echo "[INFO] It's ok with the spell-checker."
+                        exit 0
+                      else
+                        echo "[ERROR] There's problem with the spell-checker."
+                        exit 1
+                      fi
+           
+workflows:
+    always-run:
+        jobs:
+            - spell-checker
