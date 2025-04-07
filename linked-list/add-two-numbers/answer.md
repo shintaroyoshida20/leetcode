@@ -131,19 +131,20 @@ var addTwoNumbers = function(l1, l2) {
 
 * fuga-98さんのPR https://github.com/fuga-98/arai60/pull/6
   * 再帰を使った方法がコードの行数が短くなっており、理解が早い。
-  * 再帰の解法で問題を解いてみる( `*2` )
+  * 再帰の解法で問題を解いてみる( `*1` )
 
 ### [典型コメント](https://docs.google.com/document/d/11HV35ADPo9QxJOpJQ24FcZvtvioli770WWdZZDaLOfg/edit?tab=t.0#heading=h.lxzt19oefrb8)を読んで
 
 * 再帰でも、dummyを使う方法と使わない方法がある。 (https://discord.com/channels/1084280443945353267/1235829049511903273/1238087350995779674)
   * 再帰は、処理を子供に押し付けるというイメージを持つ。
+
 * この記法が勉強になった。(3つ以上の値の合計で重宝しそう)
     ```
         for curr_temp in [curr1, curr2]:
           if curr_temp:
             digit_sum += curr_temp.val 
     ```
-* dummyを使わない方法がある
+* headのdummyを使わない方法がある (`*3`)
 
 * 再帰で書く際には、スタックサイズを意識する。 
   * https://github.com/Yoshiki-Iwasa/Arai60/pull/4#discussion_r1644191582
@@ -157,7 +158,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * 問題の一般化を考える (今回は2つの数だったので、3つ以上だとどうするか) (https://github.com/Yoshiki-Iwasa/Arai60/pull/4#discussion_r1644051434)
 
-* l1とl2の番兵を使う方法もある。(https://github.com/yus-yus/leetcode/pull/5#discussion_r1945199144)
+* l1とl2の番兵を使う方法もある。(https://github.com/yus-yus/leetcode/pull/5#discussion_r1945199144) (`*2`)
 
 * コード領域、データ領域、スタック領域、ヒープ領域の認識
   * スタック領域
@@ -166,7 +167,7 @@ var addTwoNumbers = function(l1, l2) {
 
 ### その他の解法
 
-* 再帰を用いた解法
+* `*1` 再帰を用いた解法
 
 ```
 var addTwoNumbers = function(l1, l2, carry = 0) {
@@ -191,7 +192,7 @@ var addTwoNumbers = function(l1, l2, carry = 0) {
 };
 ```
 
-* L1/L2の番兵を使う解法
+* `*2` L1/L2の番兵を使う解法
 ```
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
@@ -229,7 +230,7 @@ var addTwoNumbers = function(l1, l2) {
 };
 ```
 
-* headの番兵を使わない解放 
+* `*3` headの番兵を使わない解放 
 
 ```
 var addTwoNumbers = function(l1, l2) {
