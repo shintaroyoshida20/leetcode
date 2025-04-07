@@ -115,8 +115,10 @@ var addTwoNumbers = function(l1, l2) {
 ## 感想
 
 * carry_overのみが残っているケースに注意する.
+  * 99 + 1みたいなケース
 * 他の人のコードを読んで、全体的に自分のコードの変数名が冗長であるように感じた。
 * parseIntは、Math.floorでも良い.
+* 好みは、再帰を使わず、l1とl2の番兵を使う。
 
 ### 他の人のコードを読んで
 
@@ -143,14 +145,13 @@ var addTwoNumbers = function(l1, l2) {
     ```
 * dummyを使わない方法がある
 
-* stack + loopによるDFSによる解法
-
 * 再帰で書く際には、スタックサイズを意識する。 
   * https://github.com/Yoshiki-Iwasa/Arai60/pull/4#discussion_r1644191582
   * Rustは、2M。Javascirptは調べたがStackサイズに関する公式ドキュメントが見つからなかった。
     * https://stackoverflow.com/questions/7826992/browser-javascript-stack-size-limit
 
 * 問題の制約が、何かを考えながら解いた方が良い。https://discord.com/channels/1084280443945353267/1227464441235509308/1229681213803860008
+  * 今回だと、連結リストのノード数は最大100個 
 
 > あくまで私の場合の話なのですが、コードを丸暗記して覚えていたので、制約が何なのかを考えることすらしていませんでした。やねうらおさんに考え方を教えていただき、やっと制約が何なのかを考えながら書けるようになりました。
 
@@ -228,7 +229,7 @@ var addTwoNumbers = function(l1, l2) {
 };
 ```
 
-* 番兵を使わない解放 
+* headの番兵を使わない解放 
 
 ```
 var addTwoNumbers = function(l1, l2) {
