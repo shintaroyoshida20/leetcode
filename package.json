@@ -1,0 +1,8 @@
+{
+  "name": "leetcode",
+  "repository": "git@github.com:shintaroyoshida20/leetcode.git",
+  "license": "MIT",
+  "devDependencies": {
+    "cspell-cli": "^8.17.3"
+  }
+}
