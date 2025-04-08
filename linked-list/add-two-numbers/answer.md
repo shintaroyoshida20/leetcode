@@ -202,13 +202,15 @@ var addTwoNumbers = function(l1, l2) {
     let sum_digit_node = sentinel
     let carry_over = 0
 
+    let l1_dummy_node = new ListNode(0, null)
+    let l2_dummy_node = new ListNode(0, null)
     while (l1_digit_node || l2_digit_node || carry_over) {
 
         if (!l1_digit_node) {
-            l1_digit_node = new ListNode(0, null)
+            l1_digit_node = l1_dummy_node
         }
         if (!l2_digit_node) {
-            l2_digit_node = new ListNode(0, null)
+            l2_digit_node = l2_dummy_node
         }
         const digit_value_sum = l1_digit_node.val + l2_digit_node.val + carry_over
 
