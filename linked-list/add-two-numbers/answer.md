@@ -218,12 +218,8 @@ var addTwoNumbers = function(l1, l2) {
         sum_digit_node.next = new ListNode(one_place_value, null)
         sum_digit_node = sum_digit_node.next
 
-        if (l1_digit_node) {
-            l1_digit_node = l1_digit_node.next
-        }
-        if (l2_digit_node) {
-            l2_digit_node = l2_digit_node.next
-        }
+        l1_digit_node = l1_digit_node.next
+        l2_digit_node = l2_digit_node.next
     }
 
     return sentinel.next
@@ -255,12 +251,8 @@ var addTwoNumbers = function(l1, l2) {
             node.next = new ListNode(one_place_value, null)
             node = node.next
         }
-        if (l1) {
-            l1 = l1.next
-        }
-        if (l2) {
-            l2 = l2.next
-        }
+        l1 = l1.next
+        l2 = l2.next
     }
 
     return head
