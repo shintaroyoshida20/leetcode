@@ -140,18 +140,19 @@ var isValid = function(characters) {
 ### 他の人のコードを読んで
 
 * BumbuShoji のPR https://github.com/BumbuShoji/Leetcode/pull/7
-  * 開き括弧と閉じ括弧の対応関係を表すMapを用意しておく方法がある (`*1`)
+  * 開き括弧と閉じ括弧の対応関係を表すMapを用意することも可能。 (`*1`で解法を追加)
   
   * はじめに、閉じ括弧があるケースを想定できていなかった。
-    * 配列が要素数0の時に、pop()で、undefinedを返すため、たまたま上手く行った。 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop#return_value
-    * 変更前
-    ```
-        const open_bracket_candidate = container.pop()
-    ```
-    * 変更後
-    ```
-        const open_bracket_candidate = container.pop() || ""
-        const open_bracket_candidate = container.length > 0 ? container.pop() : ""
+    * 配列が要素数0の時に、pop()で、undefinedを返すため、たまたま上手く行った。 
+      参考 : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop#return_value
+      * 変更前
+      ```
+          const open_bracket_candidate = container.pop()
+      ```
+      * 変更後
+      ```
+          const open_bracket_candidate = container.pop() || ""
+          const open_bracket_candidate = container.length > 0 ? container.pop() : ""
     ```
 
   * 最後のif文は、`return container.length === 0`、`return !arr.length` でも良い
@@ -171,12 +172,11 @@ var isValid = function(characters) {
       ```
 
 * Odaのコメント https://discord.com/channels/1084280443945353267/1225849404037009609/1231646037077131315 
-  * エラーハンドリングで、括弧以外が来るという一般化を考慮できていなかった。
+  * エラーハンドリングの観点を持っていなかった。
   > open_to_close でデータは持ちたいです。文字列にカッコ以外が来たときに落ちないで欲しいからです。
 
      * 括弧以外の文字が入ってきた際のあるべきは、エラーログを吐き、exit 1で異常終了することと考えた。 https://discord.com/channels/1084280443945353267/1225849404037009609/1231648833914802267 
-     * 例外を投げる方法がある。 https://discord.com/channels/1084280443945353267/1227464441235509308/1228599642200211496
-     * 異常終了、続行する(例外を投げる、特殊な値を返す)の選択肢を意識して、選ぶようにする。 
+     * 異常終了、続行する(例外を投げる、特殊な値を返す)の選択肢を意識して、選べると良い。
        * 異常終了
          * エラーに気づきやすい。 https://github.com/mura0086/arai60/pull/11#discussion_r1986104852
        
@@ -200,7 +200,6 @@ var isValid = function(characters) {
               //
             } 
         ```
-  * ボトルネックではないところは、最適化しない。
 
 ## その他の解法
 
@@ -234,8 +233,7 @@ var isValid = function(characters) {
 
 * `*2` 番兵をおく方法
 
-  * 番兵をおく方法がる. (`*2`)
-    * 以下の方法でさらに簡潔にかける.
+  * 以下の方法でさらに簡潔にかける.
     ```
         const bracket_pairs = new Map([
             ["{", "}"],
