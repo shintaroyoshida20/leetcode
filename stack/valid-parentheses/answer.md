@@ -132,6 +132,11 @@ var isValid = function(characters) {
 ```
 ## 感想
 
+### 一番ためになったこと
+
+* 不正な入力に対して、エラーハンドリングをどうするかという視点がなかった。
+  https://github.com/lilnoahhh/leetcode/pull/7#discussion_r1948110757
+
 ### 他の人のコードを読んで
 
 * BumbuShoji のPR https://github.com/BumbuShoji/Leetcode/pull/7
@@ -165,6 +170,38 @@ var isValid = function(characters) {
         return container.length === 0
       ```
 
+* Odaのコメント https://discord.com/channels/1084280443945353267/1225849404037009609/1231646037077131315 
+  * エラーハンドリングで、括弧以外が来るという一般化を考慮できていなかった。
+  > open_to_close でデータは持ちたいです。文字列にカッコ以外が来たときに落ちないで欲しいからです。
+
+     * 括弧以外の文字が入ってきた際のあるべきは、エラーログを吐き、exit 1で異常終了することと考えた。 https://discord.com/channels/1084280443945353267/1225849404037009609/1231648833914802267 
+     * 例外を投げる方法がある。 https://discord.com/channels/1084280443945353267/1227464441235509308/1228599642200211496
+     * 異常終了、続行する(例外を投げる、特殊な値を返す)の選択肢を意識して、選ぶようにする。 
+       * 異常終了
+         * エラーに気づきやすい。 https://github.com/mura0086/arai60/pull/11#discussion_r1986104852
+       
+       参考 : https://discord.com/channels/1084280443945353267/1226508154833993788/1227171332131786774
+
+    * 異常な入力への対応を頭に入れてコードを書く。
+      * 質問されたら、結果と選択肢と理由を回答できる状態にする。 https://discord.com/channels/1084280443945353267/1316770883729100810/1335077966954369095
+
+* lilnoahhhのPR https://github.com/lilnoahhh/leetcode/pull/7
+  * Stringで判定する方法がある。
+    * 変更前
+        ```
+            const open_bracket_chars = ["(", "{", "["]
+            if (open_bracket_chars.includes(character)) {
+              //
+            } 
+        ```
+        ```
+            const open_brackets = "{(["
+            if (open_brackets.includes(character)) {
+              //
+            } 
+        ```
+  * ボトルネックではないところは、最適化しない。
+
 ## その他の解法
 
 * `*1` 括弧の対応関係を表すMapを使う方法
@@ -194,7 +231,6 @@ var isValid = function(characters) {
 
 * SanakoMeine のPR https://github.com/SanakoMeine/leetcode/pull/7 
   * 以下のコードが簡潔で読みやすい.
-
 
 * `*2` 番兵をおく方法
 
