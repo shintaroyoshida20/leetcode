@@ -130,32 +130,44 @@ var isValid = function(characters) {
     return false
 };
 ```
+## 感想
 
-## 他の人のコードを読んで
+### 他の人のコードを読んで
 
 * BumbuShoji のPR https://github.com/BumbuShoji/Leetcode/pull/7
   * 開き括弧と閉じ括弧の対応関係を表すMapを用意しておく方法がある (`*1`)
-
-* hayashi-ay のコメント https://github.com/BumbuShoji/Leetcode/pull/7#discussion_r1810574515
-  最後のif文は、以下のコードでも良い.
-  * 変更前
-
+  
+  * はじめに、閉じ括弧があるケースを想定できていなかった。
+    * 配列が要素数0の時に、pop()で、undefinedを返すため、たまたま上手く行った。 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop#return_value
+    * 変更前
     ```
-      if (container.length === 0) {
-          return true
-      }
-      return false
+        const open_bracket_candidate = container.pop()
+    ```
+    * 変更後
+    ```
+        const open_bracket_candidate = container.pop() || ""
+        const open_bracket_candidate = container.length > 0 ? container.pop() : ""
     ```
 
-  * 変更後
+  * 最後のif文は、`return container.length === 0`、`return !arr.length` でも良い
+    * 変更前
 
-    ```
-      return container.length === 0
-    ```
+      ```
+        if (container.length === 0) {
+            return true
+        }
+        return false
+      ```
+
+    * 変更後
+
+      ```
+        return container.length === 0
+      ```
 
 ## その他の解法
 
-* `*1` 
+* `*1` 括弧の対応関係を表すMapを使う方法
 
 ```
 var isValid = function(characters) {
@@ -177,5 +189,57 @@ var isValid = function(characters) {
         }
     }
     return container.length === 0
+};
+```
+
+* SanakoMeine のPR https://github.com/SanakoMeine/leetcode/pull/7 
+  * 以下のコードが簡潔で読みやすい.
+
+
+* `*2` 番兵をおく方法
+
+  * 番兵をおく方法がる. (`*2`)
+    * 以下の方法でさらに簡潔にかける.
+    ```
+        const bracket_pairs = new Map([
+            ["{", "}"],
+            ["(", ")"],
+            ["[", "]"],
+            ["*", ""],
+        ])
+        const container = ["*"]
+    ```
+
+```
+
+function doesMatchBracket(candidate, close_bracket_character) {
+    if (candidate === "(" && close_bracket_character === ")") {
+        return true
+    }
+    if (candidate === "[" && close_bracket_character === "]") {
+        return true
+    }
+    if (candidate === "{" && close_bracket_character === "}") {
+        return true
+    }
+    return false
+}
+var isValid = function(characters) {
+    const container =[]
+    const open_bracket_characters = ["(", "[", "{"]
+    container.push("SENTINEL")
+
+    for (const character of characters) {
+        if (open_bracket_characters.includes(character)) {
+            container.push(character)
+            continue
+        }
+        const open_bracket_candidate = container.pop()
+        const close_bracket_character = character
+        if (!doesMatchBracket(open_bracket_candidate, close_bracket_character)) {
+            return false
+        }
+    }
+    return container.length === 1 && container[container.length-1] === "SENTINEL"
 };
 ```
