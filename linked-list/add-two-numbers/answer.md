@@ -263,6 +263,8 @@ var addTwoNumbers = function(l1, l2) {
 
 ## レビューコメントの一覧 
 
+### レビューコメント(1)
+
 * 指摘前のコード
 
 ```
@@ -374,6 +376,8 @@ var addTwoNumbers = function(l1, l2) {
     return sentinel.next
 };
 ```
+
+### レビューコメント(2)
 
 * 指摘前のコード
 
