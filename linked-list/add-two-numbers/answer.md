@@ -402,7 +402,7 @@ var addTwoNumbers = function(l1, l2) {
 };
 ```
 
-* 変数宣言なしで変数を使用しているというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8/files#r2030575602)
+* 変数宣言なしで変数を使用しているというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8#discussion_r2030575602)
 
 ```
 var addTwoNumbers = function(l1, l2) {
