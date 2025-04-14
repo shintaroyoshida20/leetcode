@@ -339,7 +339,7 @@ var addTwoNumbers = function(l1, l2) {
 };
 ```
 
-* l1とl2を共通で良いというコメントを頂いた後のコード
+* l1とl2を共通で良いというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8#discussion_r2032319371)
 
 ```
 var addTwoNumbers = function(l1, l2) {
@@ -402,7 +402,7 @@ var addTwoNumbers = function(l1, l2) {
 };
 ```
 
-* 変数宣言なしで変数を使用しているというコメントを頂いた後のコード https://github.com/shintaroyoshida20/leetcode/pull/8/files#r2030575602
+* 変数宣言なしで変数を使用しているというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8/files#r2030575602)
 
 ```
 var addTwoNumbers = function(l1, l2) {
