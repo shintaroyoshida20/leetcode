@@ -443,3 +443,83 @@ $ hello += 1
 $ console.log(hello)
 2
 ```
+
+### レビューコメント (3)
+
+* 指摘前のコード
+
+```
+var addTwoNumbers = function(l1, l2) {
+    let sentinel = new ListNode()
+
+    let l1_digit_node = l1
+    let l2_digit_node = l2
+    let sum_digit_node = sentinel
+    let carry_over = 0
+
+    while (l1_digit_node || l2_digit_node || carry_over) {
+
+        let digit_value_sum = carry_over
+        if (l1_digit_node) {
+            digit_value_sum += l1_digit_node.val
+        }
+        if (l2_digit_node) {
+            digit_value_sum += l2_digit_node.val
+        }
+
+        let one_place_value = parseInt(digit_value_sum % 10)
+        carry_over = parseInt(digit_value_sum / 10)
+
+        sum_digit_node.next = new ListNode(one_place_value, null)
+        sum_digit_node = sum_digit_node.next
+
+        if (l1_digit_node) {
+            l1_digit_node = l1_digit_node.next
+        }
+        if (l2_digit_node) {
+            l2_digit_node = l2_digit_node.next
+        }
+    }
+
+    return sentinel.next
+};
+```
+
+* parseIntを文字列型以外に使うべきでないというコメントを頂いた後のコード
+
+```
+var addTwoNumbers = function(l1, l2) {
+    let sentinel = new ListNode()
+
+    let l1_digit_node = l1
+    let l2_digit_node = l2
+    let sum_digit_node = sentinel
+    let carry_over = 0
+
+    while (l1_digit_node || l2_digit_node || carry_over) {
+
+        let digit_value_sum = carry_over
+        if (l1_digit_node) {
+            digit_value_sum += l1_digit_node.val
+        }
+        if (l2_digit_node) {
+            digit_value_sum += l2_digit_node.val
+        }
+
+        let one_place_value = Math.floor(digit_value_sum % 10) // UPDATE.
+        carry_over = Math.floor(digit_value_sum / 10) // UPDATE.
+
+        sum_digit_node.next = new ListNode(one_place_value, null)
+        sum_digit_node = sum_digit_node.next
+
+        if (l1_digit_node) {
+            l1_digit_node = l1_digit_node.next
+        }
+        if (l2_digit_node) {
+            l2_digit_node = l2_digit_node.next
+        }
+    }
+
+    return sentinel.next
+};
+```
