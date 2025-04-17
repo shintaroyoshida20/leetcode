@@ -304,7 +304,7 @@ var addTwoNumbers = function(l1, l2) {
 };
 ```
 
-* 毎回作成するのは抵抗があるというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8#discussion_r2030588400)
+* for分の中で毎回番兵を作成するのは抵抗があるというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8#discussion_r2030588400)
 
 ```
 var addTwoNumbers = function(l1, l2) {
@@ -487,6 +487,11 @@ var addTwoNumbers = function(l1, l2) {
 
 * parseIntを文字列型以外に使うべきでないというコメントを頂いた後のコード
 
+  * parseIntをMath.trunc()の代わりとして使うことはすべきでない。 
+     * 小数点の数に対しては、うまく行く(15.1, -15.9など)
+     * 1e22以上の数や、1e-7以下の数で、エクスポネンシャルの記法を用いた場合、うまくいかない
+     * 十分に大きい数や小さい数でも、うまくいかない。
+     
 ```
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
