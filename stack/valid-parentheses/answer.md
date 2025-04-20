@@ -280,3 +280,32 @@ var isValid = function(characters) {
     return container.length === 1 && container[container.length-1] === "SENTINEL"
 };
 ```
+
+* `*3` 不正な入力のエラーハンドリングを行う解法
+
+```
+const isValid = function(characters) {
+    const open_to_close = new Map([
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ])
+    const container = []
+    const expected_characters = ["(", ")", "{", "}", "[", "]"]
+    for (const character of characters) {
+        if (!expected_characters.includes(character)) {
+            throw new Error(`Invalid character. Expected : ${expected_character.join(",")}. Current : ${character}`) // UPDATE
+        }
+        if (open_to_close.has(character)) {
+            container.push(character)
+            continue
+        }
+        const expected_close_bracket = open_to_close.get(container.pop())
+        const close_bracket_character = character
+        if (expected_close_bracket !== close_bracket_character) {
+            return false
+        }
+    }
+    return container.length === 0
+};
+```
