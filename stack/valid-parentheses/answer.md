@@ -319,3 +319,62 @@ const isValid = function(characters) {
     return container.length === 0
 };
 ```
+
+### レビューを受けて
+
+#### レビューコメント1
+
+* 変更前
+
+```javascript
+const isValid = function(characters) {
+    const open_to_close = new Map([
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ])
+    const container = []
+    const expected_characters = ["(", ")", "{", "}", "[", "]"]
+    for (const character of characters) {
+        if (open_to_close.has(character)) {
+            container.push(character)
+            continue
+        }
+        const expected_close_bracket = open_to_close.get(container.pop())
+        const close_bracket_character = character
+        if (expected_close_bracket !== close_bracket_character) {
+            return false
+        }
+    }
+    return container.length === 0
+};
+```
+
+* 変更後 (conatiner.pop()をする際にundefinedとstringの可能性を考慮する必要がある。)
+
+```javascript
+const isValid = function(characters) {
+    const open_to_close = new Map([
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"]
+    ])
+    const container = []
+    const expected_characters = ["(", ")", "{", "}", "[", "]"]
+    for (const character of characters) {
+        if (open_to_close.has(character)) {
+            container.push(character)
+            continue
+        }
+        // 箱の中身が空で、閉じ括弧が挿入された際には、falseを返す。
+        if (container.length === 0) {
+            return false
+        }
+        const expected_close_bracket = open_to_close.get(container.pop())
+        const close_bracket_character = character
+        if (expected_close_bracket !== close_bracket_character) {
+            return false
+        }
+    }
+    return container.length === 0
+};
