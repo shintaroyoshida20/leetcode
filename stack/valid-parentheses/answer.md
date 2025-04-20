@@ -92,10 +92,6 @@ var isValid = function(characters) {
 ## STEP 3
 
 ```javascript
-/**
- * @param {string} s
- * @return {boolean}
- */
 function doesMatchBracket(candidate, close_bracket_character) {
     if (candidate === "(" && close_bracket_character === ")") {
         return true
@@ -142,32 +138,30 @@ var isValid = function(characters) {
   * はじめに、閉じ括弧があるケースを想定できていなかった。
     * 配列が要素数0の時に、pop()で、undefinedを返すため、たまたま上手く行った。 
       参考 : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop#return_value
-      * 変更前
 
 ```javascript
+    // BEFORE
     const open_bracket_candidate = container.pop()
 ```
 
-      * 変更後
-
 ```javascript
+    // AFTER
     const open_bracket_candidate = container.pop() || ""
     const open_bracket_candidate = container.length > 0 ? container.pop() : ""
 ```
 
   * 最後のif文は、`return container.length === 0`、`return !arr.length` でも良い
-    * 変更前
 
 ```javascript
+  // BEFORE
   if (container.length === 0) {
       return true
   }
   return false
 ```
 
-    * 変更後
-
 ```javascript
+  // AFTER
   return container.length === 0
 ```
 
@@ -194,18 +188,17 @@ var isValid = function(characters) {
 
 * lilnoahhhのPR https://github.com/lilnoahhh/leetcode/pull/7
   * Stringで判定する方法がある。
-    * 変更前
 
 ```javascript
+    // BEFORE
     const open_bracket_chars = ["(", "{", "["]
     if (open_bracket_chars.includes(character)) {
       //
     } 
 ```
 
-    * 変更後
-
 ```javascript
+    // AFTER
     const open_brackets = "{(["
     if (open_brackets.includes(character)) {
       //
