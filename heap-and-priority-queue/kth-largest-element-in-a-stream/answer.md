@@ -7,9 +7,10 @@
   --> ここから先が思い付かず、回答を見た。
 
 * ソートされた文字列を1つ保持しておき、値が挿入されるたびにソートし直す形で確かに動きそう。
+  * 時間計算量 : O(N^2)
+  * 空間計算量 : O(N)
 
-
-```
+```javascript
 const KthLargest = function(k, nums) {
     nums.sort((a,b) => a-b)
 
@@ -127,4 +128,212 @@ KthLargest.prototype.add = function (value) {
     return this.heap.peek()
 };
 ```
+
 ## STEP2
+
+* 問題で期待されているHeapを用いてStep2以降を行う。
+
+* やったこと
+  * early return で認知負荷を下げる。
+  * 関数名が冗長だと感じたので、以下に変更
+    * `getParentIdx` -> `getParent`
+    * `getLeftIdx` -> `getLeft`
+    * `getRightIdx` -> `getRight`
+  * 三項演算子を削除 
+
+```javascript
+class MinHeap {
+    constructor() {
+        this.heap = []
+    }
+    top() {
+        return this.heap[0]
+    }
+    size() {
+        return this.heap.length
+    }
+    push(value) {
+        this.heap.push(value)
+        this.siftUp()
+    }
+    pop() {
+        if (this.size() === 0) {
+            return null
+        }
+        const poppedValue = this.top()
+        if (this.size() === 1) {
+            this.heap.pop()
+            return poppedValue
+        }
+        const bottom = this.size() - 1
+        this._swap(0, bottom)
+        this.heap.pop()
+        this.siftDown()
+        return poppedValue
+    }
+    _swap(i, j) {
+        const temp = this.heap[i]
+        this.heap[i] = this.heap[j]
+        this.heap[j] = temp
+    }
+    _getParent(idx) {
+        return Math.floor((idx - 1) / 2)
+    }
+    _getRight(idx) {
+        return 2 * idx + 2
+    }
+    _getLeft(idx) {
+        return 2 * idx + 1
+    }
+    siftUp() {
+        let idx = this.size() - 1
+        let parentIdx = this._getParent(idx)
+        while (idx > 0 && this.heap[idx] < this.heap[parentIdx]) {
+            this._swap(idx, parentIdx)
+            idx = parentIdx
+            parentIdx = this._getParent(idx)
+        }
+    }
+    siftDown() {
+        let idx = 0
+        let rightIdx = this._getRight(idx)
+        let leftIdx = this._getLeft(idx)
+        while (
+            (leftIdx < this.size() && this.heap[leftIdx] < this.heap[idx]) ||
+            (rightIdx < this.size() && this.heap[rightIdx] < this.heap[idx])
+        ) {
+            let smallerChildIdx = (rightIdx < this.size() && this.heap[rightIdx] > this.heap[leftIdx]) ? rightIdx : leftIdx
+            this._swap(idx, smallerChildIdx)
+            idx = smallerChildIdx
+            rightIdx = this._getRight(idx)
+            leftIdx = this._getLeft(idx)
+        }
+    }
+}
+
+const KthLargest = function (k, nums) {
+    const heap = new MinHeap()
+    this.heap = heap
+    this.k = k
+    for (const num of nums) {
+        this.heap.push(num)
+        if (this.heap.size() === this.k + 1) {
+            this.heap.pop()
+        }
+    }
+};
+
+KthLargest.prototype.add = function (value) {
+    this.heap.push(value)
+    if (this.heap.size() === this.k + 1) {
+        this.heap.pop()
+    }
+    return this.heap.peek()
+};
+```
+## STEP 3
+
+```javascript
+class MinHeap {
+    constructor() {
+        this.heap = []
+    }
+    top() {
+        return this.heap[0]
+    }
+    size() {
+        return this.heap.length
+    }
+    push(value) {
+        this.heap.push(value)
+        this.siftUp()
+    }
+    pop() {
+        if (this.size() === 0) {
+            return null
+        }
+        const poppedValue = this.top()
+        if (this.size() === 1) {
+            this.heap.pop()
+            return poppedValue
+        }
+        const bottom = this.size() - 1
+        this._swap(0, bottom)
+        this.heap.pop()
+        this.siftDown()
+        return poppedValue
+    }
+    siftUp() {
+        const bottom = this.size() - 1
+        let idx = bottom
+        let parentIdx = this._getParent(idx)
+        while (0 < idx && this.heap[idx] < this.heap[parentIdx]) {
+            this._swap(idx, parentIdx)
+            idx = parentIdx
+            parentIdx = this._getParent(idx)
+        }
+    }
+    siftDown() {
+        const top = 0
+        let idx = top
+        let leftIdx = this._getLeft(idx)
+        let rightIdx = this._getRight(idx)
+        while (
+            (leftIdx < this.size() && this.heap[leftIdx] < this.heap[idx]) ||
+            (rightIdx < this.size() && this.heap[rightIdx] < this.heap[idx])
+        ) {
+            let smallerIdx
+            if (rightIdx < this.size() && this.heap[rightIdx] < this.heap[leftIdx]) {
+                smallerIdx = rightIdx
+            } else {
+                smallerIdx = leftIdx
+            }
+            this._swap(idx, smallerIdx)
+            idx = smallerIdx
+            leftIdx = this._getLeft(idx)
+            rightIdx = this._getRight(idx)
+        }
+    }
+    _getParent(idx) {
+        return Math.floor((idx - 1) / 2)
+    }
+    _getLeft(idx) {
+        return 2 * idx + 1
+    }
+    _getRight(idx) {
+        return 2 * idx + 2
+    }
+    _swap(i, j) {
+        const temp = this.heap[i]
+        this.heap[i] = this.heap[j]
+        this.heap[j] = temp
+    }
+}
+const KthLargest = function(k, nums) {
+    this.heap = new MinHeap()
+    this.k = k
+    for (const num of nums) {
+        this.heap.push(num)
+        if (this.heap.size() === this.k + 1) {
+            this.heap.pop()
+        }
+    }
+};
+
+KthLargest.prototype.add = function(val) {
+    this.heap.push(val)
+    if (this.heap.size() === this.k + 1) {
+        this.heap.pop()
+    }
+    return this.heap.top()
+};
+
+```
+## 感想 
+
+* こちらのロジックが誤っていることに気づけなかった。
+  * 右のノードが存在しない際には、左のノードのidxを返して欲しいが、右のノードのidxが返却されていること。
+
+```
+const smallerIdx = rightIdx < this.size() && this.heap[leftIdx] < this.heap[rightIdx] ? leftIdx : rightIdx
+```
