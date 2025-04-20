@@ -156,7 +156,7 @@ const reverseList = function(head) {
 
 * `*4` 再帰を用いて、先頭から順番に向き先を付け替える
 
-```
+```javascript
 const reverseListHelper = function(new_chain_head, old_chain_head) {
     if (old_chain_head === null) return new_chain_head
     const old_chain_new_head = old_chain_head.next
@@ -194,5 +194,4 @@ const reverseList = function(head) {
     return reverseListHelper(head)
 }
 ```
-
 
