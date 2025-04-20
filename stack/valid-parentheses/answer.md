@@ -158,18 +158,18 @@ var isValid = function(characters) {
   * 最後のif文は、`return container.length === 0`、`return !arr.length` でも良い
     * 変更前
 
-      ```javascript
-        if (container.length === 0) {
-            return true
-        }
-        return false
-      ```
+```javascript
+  if (container.length === 0) {
+      return true
+  }
+  return false
+```
 
     * 変更後
 
-      ```javascript
-        return container.length === 0
-      ```
+```javascript
+  return container.length === 0
+```
 
 * Odaのコメント https://discord.com/channels/1084280443945353267/1225849404037009609/1231646037077131315 
   * 不正な入力に対して、エラーハンドリングをどうするかという視点がなかった。
@@ -196,21 +196,21 @@ var isValid = function(characters) {
   * Stringで判定する方法がある。
     * 変更前
 
-        ```javascript
-            const open_bracket_chars = ["(", "{", "["]
-            if (open_bracket_chars.includes(character)) {
-              //
-            } 
-        ```
+```javascript
+    const open_bracket_chars = ["(", "{", "["]
+    if (open_bracket_chars.includes(character)) {
+      //
+    } 
+```
 
     * 変更後
 
-        ```javascript
-            const open_brackets = "{(["
-            if (open_brackets.includes(character)) {
-              //
-            } 
-        ```
+```javascript
+    const open_brackets = "{(["
+    if (open_brackets.includes(character)) {
+      //
+    } 
+```
 
 
 * SanakoMeine のPR https://github.com/SanakoMeine/leetcode/pull/7 
@@ -246,15 +246,16 @@ var isValid = function(characters) {
 * `*2` 番兵をおく方法
 
   * 以下の方法でさらに簡潔にかける.
-    ```
-        const bracket_pairs = new Map([
-            ["{", "}"],
-            ["(", ")"],
-            ["[", "]"],
-            ["*", ""],
-        ])
-        const container = ["*"]
-    ```
+
+```javascript
+    const bracket_pairs = new Map([
+        ["{", "}"],
+        ["(", ")"],
+        ["[", "]"],
+        ["*", ""],
+    ])
+    const container = ["*"]
+```
 
 ```javascript
 function doesMatchBracket(candidate, close_bracket_character) {
