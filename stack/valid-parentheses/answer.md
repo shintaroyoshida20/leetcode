@@ -11,7 +11,7 @@
 * 作業が完了して、机の上に何も残っていない場合には、終了する。
 * 机の上に何か残っている場合には、異常を報告する。
 
-```
+```javascript
 var isValid = function(characters) {
     const container = []
     const open_bracket_chars = ["(", "{", "["]
@@ -49,7 +49,7 @@ var isValid = function(characters) {
 ### やったこと
 * 関数を分けた.
 
-```
+```javascript
 function doesMatchBracket(candidate, close_bracket) {
     if (candidate === "[" && close_bracket === "]") {
         return true
@@ -91,7 +91,7 @@ var isValid = function(characters) {
 
 ## STEP 3
 
-```
+```javascript
 /**
  * @param {string} s
  * @return {boolean}
@@ -212,7 +212,7 @@ var isValid = function(characters) {
 
 * `*1` 括弧の対応関係を表すMapを使う方法
 
-```
+```javascript
 var isValid = function(characters) {
     const open_to_close = new Map()
     open_to_close.set("(", ")")
@@ -248,7 +248,7 @@ var isValid = function(characters) {
         const container = ["*"]
     ```
 
-```
+```javascript
 function doesMatchBracket(candidate, close_bracket_character) {
     if (candidate === "(" && close_bracket_character === ")") {
         return true
@@ -282,8 +282,9 @@ var isValid = function(characters) {
 ```
 
 * `*3` 不正な入力のエラーハンドリングを行う解法
+  * 正常終了(エラーログ)と異常終了の選択肢のうち、異常終了を選択する。
 
-```
+```javascript
 const isValid = function(characters) {
     const open_to_close = new Map([
         ["{", "}"],
