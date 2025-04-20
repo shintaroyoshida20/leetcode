@@ -202,7 +202,12 @@ class MinHeap {
             (leftIdx < this.size() && this.heap[leftIdx] < this.heap[idx]) ||
             (rightIdx < this.size() && this.heap[rightIdx] < this.heap[idx])
         ) {
-            let smallerChildIdx = (rightIdx < this.size() && this.heap[rightIdx] > this.heap[leftIdx]) ? rightIdx : leftIdx
+            let smallerIdx
+            if (rightIdx < this.size() && this.heap[rightIdx] < this.heap[leftIdx]) {
+                smallerIdx = rightIdx
+            } else {
+                smallerIdx = leftIdx
+            }
             this._swap(idx, smallerChildIdx)
             idx = smallerChildIdx
             rightIdx = this._getRight(idx)
