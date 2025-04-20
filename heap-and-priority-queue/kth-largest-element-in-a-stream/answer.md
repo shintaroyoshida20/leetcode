@@ -358,27 +358,26 @@ const parentIdx = (idx - 1) >> 1
 ### 他の人のコードを読んで
 
 * olsen-blue https://github.com/olsen-blue/Arai60/pull/8
-  * for分の中でaddを読んだ方が簡潔にかける https://github.com/olsen-blue/Arai60/pull/8#discussion_r1907273960
-  * top_k_heap という変数名が良い 
-    * 僕のheapよりも最大k個しか値が含まれないという意味が込められていて、すごく良い。
+  * for分の中でaddを呼び出した方が簡潔にかける https://github.com/olsen-blue/Arai60/pull/8#discussion_r1907273960
+  * top_k_heap という変数名
+    * heapよりも最大k個しか値が含まれないという意味が込められていて、すごく良い。
   * `if (size > k + 1)` よりも `while (size > k)` の方が問題が少なそう。
 
-* 挿入する値が、topよりも小さい時のみ追加するという方法もあり。
+* 挿入する値が、top()の値よりも小さい時のみ追加するという方法もあり。
   https://leetcode.com/problems/kth-largest-element-in-a-stream/solutions/596093/c-solution-with-understandable-explaination/
 
 * TORUS0818 のPR https://github.com/TORUS0818/leetcode/pull/10/
   * siftUpは再帰で解く方法もある https://github.com/TORUS0818/leetcode/pull/10/files#diff-834e73e8238c79fda22f0cf168ae9c2d4b99e7e7db94424dfa8e4f594f2a9ed2R33-R40
   * pythonのheapqにも存在するheapifyという関数を自前で作っている 
-\
 
 * Ryotaro25 https://github.com/Ryotaro25/leetcode_first60/pull/9
-  * get_smaller_child_indexを関数化すると読みやすくなる 
+  * leftとrightを比較して小さいnodeを取り出す箇所を関数化すると読みやすくなる 
 
 * goto-untrapped https://github.com/goto-untrapped/Arai60/pull/23 
   * 償却時間計算量(amortized time complexity)という概念があり、複数の操作の時間計算量を集計して、1操作あたりの計算量を求める方法.
 
-* https://github.com/hayashi-ay/leetcode/pull/54
+* hayashi-ayのコード https://github.com/hayashi-ay/leetcode/pull/54
 
 * fhiyo https://github.com/fhiyo/leetcode/pull/10/
-  * index > 0 は hasParentという関数でも良い
+  * index > 0 は hasParentという関数に切り出しても良い
   * heapifyが半分の要素のみsiftUpすれば良いというのが直感で理解できない。 
