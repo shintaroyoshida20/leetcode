@@ -44,6 +44,13 @@ KthLargest.prototype.add = function(val) {
     * 実際には、追加をしてPopを行う。
 https://stackoverflow.com/questions/42919469/efficient-way-to-implement-priority-queue-in-javascript
 
+* こちらのロジックが誤っていることに気づけなかった。
+  * 右のノードが存在しない際には、左のノードのidxを返して欲しいが、右のノードのidxが返却されていること。
+
+```javascript
+const smallerIdx = rightIdx < this.size() && this.heap[leftIdx] < this.heap[rightIdx] ? leftIdx : rightIdx
+```
+
 ```javascript
 const top = 0
 class MinHeap {
@@ -336,9 +343,42 @@ KthLargest.prototype.add = function(val) {
 ```
 ## 感想 
 
-* こちらのロジックが誤っていることに気づけなかった。
-  * 右のノードが存在しない際には、左のノードのidxを返して欲しいが、右のノードのidxが返却されていること。
+* parentIdxをビット操作で求める方法にも慣れる
 
 ```
-const smallerIdx = rightIdx < this.size() && this.heap[leftIdx] < this.heap[rightIdx] ? leftIdx : rightIdx
+const parentIdx = (idx - 1) >> 1
 ```
+
+### コメント集を読んで
+
+* kが負だった場合を考慮できなかった。 https://github.com/katataku/leetcode/pull/8#discussion_r1856437996 
+
+* 時間計算量から処理時間を概算できる。  https://github.com/ichika0615/arai60/pull/8#discussion_r1898337850
+
+### 他の人のコードを読んで
+
+* olsen-blue https://github.com/olsen-blue/Arai60/pull/8
+  * for分の中でaddを読んだ方が簡潔にかける https://github.com/olsen-blue/Arai60/pull/8#discussion_r1907273960
+  * top_k_heap という変数名が良い 
+    * 僕のheapよりも最大k個しか値が含まれないという意味が込められていて、すごく良い。
+  * `if (size > k + 1)` よりも `while (size > k)` の方が問題が少なそう。
+
+* 挿入する値が、topよりも小さい時のみ追加するという方法もあり。
+  https://leetcode.com/problems/kth-largest-element-in-a-stream/solutions/596093/c-solution-with-understandable-explaination/
+
+* TORUS0818 のPR https://github.com/TORUS0818/leetcode/pull/10/
+  * siftUpは再帰で解く方法もある https://github.com/TORUS0818/leetcode/pull/10/files#diff-834e73e8238c79fda22f0cf168ae9c2d4b99e7e7db94424dfa8e4f594f2a9ed2R33-R40
+  * pythonのheapqにも存在するheapifyという関数を自前で作っている 
+\
+
+* Ryotaro25 https://github.com/Ryotaro25/leetcode_first60/pull/9
+  * get_smaller_child_indexを関数化すると読みやすくなる 
+
+* goto-untrapped https://github.com/goto-untrapped/Arai60/pull/23 
+  * 償却時間計算量(amortized time complexity)という概念があり、複数の操作の時間計算量を集計して、1操作あたりの計算量を求める方法.
+
+* https://github.com/hayashi-ay/leetcode/pull/54
+
+* fhiyo https://github.com/fhiyo/leetcode/pull/10/
+  * index > 0 は hasParentという関数でも良い
+  * heapifyが半分の要素のみsiftUpすれば良いというのが直感で理解できない。 
