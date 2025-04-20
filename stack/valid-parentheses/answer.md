@@ -129,6 +129,8 @@ var isValid = function(characters) {
     }
     return false
 };
+```
+
 ## 感想
 
 ### 他の人のコードを読んで
