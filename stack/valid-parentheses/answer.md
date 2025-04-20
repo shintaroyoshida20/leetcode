@@ -144,16 +144,16 @@ var isValid = function(characters) {
       参考 : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop#return_value
       * 変更前
 
-        ```javascript
-            const open_bracket_candidate = container.pop()
-        ```
+```javascript
+    const open_bracket_candidate = container.pop()
+```
 
       * 変更後
 
-        ```javascript
-            const open_bracket_candidate = container.pop() || ""
-            const open_bracket_candidate = container.length > 0 ? container.pop() : ""
-        ```
+```javascript
+    const open_bracket_candidate = container.pop() || ""
+    const open_bracket_candidate = container.length > 0 ? container.pop() : ""
+```
 
   * 最後のif文は、`return container.length === 0`、`return !arr.length` でも良い
     * 変更前
