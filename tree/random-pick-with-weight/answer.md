@@ -159,10 +159,23 @@ Solution.prototype.pickIndex = function() {
 ## その他の解法
 
 * 二分探索のターゲットを変更する。
-  * 見つけたいターゲット: i-1番目の累積和 <= `random_value` < i番目の累積和となるiの値
+  * 見つけたいターゲット: i-1番目の累積和 <= `random_value` < i番目の累積和となるiの値 (先ほどは、 i-1 < `random_value` <= iで等号の場所を変更した)
   * while文の引き継ぎの条件: ターゲットはleft以上で、right以下であること。
 
 ```javascript
+const Solution = function(w) {
+    let sum = 0
+    for (const weight_i of w) {
+        sum += weight_i
+    }
+
+    this.cum_sum_weights = []
+    this.cum_sum_weights.push(0)
+    for (let i=0; i<w.length; i++) {
+        const ith_cum_sum_weight = this.cum_sum_weights[i]
+        this.cum_sum_weights.push(ith_cum_sum_weight + w[i] / sum)
+    }
+};
 Solution.prototype.pickIndex = function() {
     const random_val = Math.random()
     let left = 1
