@@ -83,7 +83,7 @@ const kSmallestPairs = function(nums1, nums2, k) {
 
 ## STEP2
 
-* nums1, nums2を全て探索する方法.
+* nums1, nums2の全ての組み合わせを探索する方法.
 
 ```javascript
 const kSmallestPairs = function(nums1, nums2, k) {
@@ -118,7 +118,7 @@ const kSmallestPairs = function(nums1, nums2, k) {
 
 ## STEP3
 
-* nums1, nums2を全て探索する方法.
+* nums1, nums2no全ての組み合わせを探索する方法.
 
 ```javascript
 const kSmallestPairs = function(nums1, nums2, k) {
@@ -158,14 +158,36 @@ const kSmallestPairs = function(nums1, nums2, k) {
 
 ### コメント集を読んで
 
+* k個未満の要素が返ってきた時にどうするか? 
+
+### 他の人のコードを読んで
+
+* Mike0121のコード 
+  * Folder : https://github.com/Mike0121/LeetCode/tree/528c89c1dfc93228cecabcc524b0eaf449cf9735/Arai60%202023/50.%20Find%20K%20Pairs%20with%20Smallest%20Sums
+  * PR : https://github.com/Mike0121/LeetCode/pull/20
+  * `while k > 0 and heap:` が読みづらい。
+    * condition の中の個数を心の理論で決める。
+    * 長くなった場合には、for/while statementの中で制御することも検討する。 
+    * while statement / for statementの主役となる変数を元に考えれば良さそう。
+
+* YukiMichishitaのコード
+  * PR : https://github.com/YukiMichishita/LeetCode/pull/4/
+  * 二方向ではなく、一方向だけチェックすればよい。
+
+* https://github.com/nittoco/leetcode/pull/33/
+  * 
+
+* https://github.com/TORUS0818/leetcode/pull/12/
+
 ## その他の解法
 
-* LeetCodeの解法
-  発想は、
+* LeetCodeの解法 (左上を基点として、右方向/下方向に伸びていく方法)
+  発想(手でやる)
   * 1. [0,0]を箱に入れる。
-  * 2. 最小となるの和となるペアを取り出す。
-  * 3. ペアに対して、id1 + 1をしたペアとid2 + 1をしたペアを作り、箱に入れる。
-  * 4. 2と3をkが満たされるまで実行する。
+  * 2. 最小の和となるペアを箱から取り出す。
+  * 3. ペアを紙袋に詰める。
+  * 4. ペアに対して、id1 + 1をしたペアとid2 + 1をしたペアを作り、箱に入れる。
+  * 5. 2と3を、紙袋の中身がk個になるまで実行する。
 
 ```javascript
 const kSmallestPairs = function(nums1, nums2, k) {
@@ -203,3 +225,126 @@ const kSmallestPairs = function(nums1, nums2, k) {
     return ans
 };
 ```
+
+* setを使わずに解く方法 https://github.com/TORUS0818/leetcode/pull/12#discussion_r1623146530
+
+```
+const kSmallestPairs = function(nums1, nums2, k) {
+    //  \  i_1, i_2, i_3, ... (nums1)
+    // j_1  O    O    X
+    // j_2  O    X    X
+    // j_3  O    X    X
+    // j_4  X    X    X
+    // ...
+    // (nums2)
+
+    // 上の例だと、配列は以下になる。
+    // next_i_in_each_j = [2, 1, 1, 0, ...]
+    // next_j_in_each_i = [3, 1, 0, ...]
+
+
+    // next_i_in_each_j: j行目が次に何を出すかを表す配列。
+    // 言い換えると、nums2の各値に対して、
+    // nums1の探索が小さい方からどれだけ終わったかを表す。
+    const next_i_in_each_j = new Array(nums2.length).fill(0)
+
+    // next_j_in_each_i: i列目が次に何を出すかを表す配列。
+    // 言い換えると、nums1の各値に対して、
+    // nums2の探索が小さい方からどれだけ終わったかを表す。
+    const next_j_in_each_i = new Array(nums1.length).fill(0)
+
+    const index_pairs = new PriorityQueue((pair1, pair2) => {
+        const sum1 = nums1[pair1[0]] + nums2[pair1[1]]
+        const sum2 = nums1[pair2[0]] + nums2[pair2[1]]
+        return sum1 - sum2
+    })
+
+    index_pairs.push([0, 0])
+    const ans = []
+    while (ans.length < k) {
+        const [i, j] = index_pairs.pop()
+        console.log(i, j, nums1[i], nums2[j])
+        ans.push([nums1[i], nums2[j]])
+        ++next_i_in_each_j[j];
+        ++next_j_in_each_i[i];
+
+        if (i + 1 < nums1.length && next_j_in_each_i[i + 1] === j) {
+            if (next_i_in_each_j[j] !== i + 1) {
+                throw new Error("unexepected behavior")
+            }
+            index_pairs.push([i + 1, j])
+        }
+
+        if (j + 1 < nums2.length && next_i_in_each_j[j + 1] === i) {
+            if (next_j_in_each_i[i] !== j + 1) {
+                throw new Error("unexepected behavior")
+            }
+            index_pairs.push([i, j + 1])
+        }
+    }
+    return ans
+};
+```
+
+* ahayashiのPR に対するOdaのコメントを考慮した方法 
+  * 参考: https://discord.com/channels/1084280443945353267/1200089668901937312/1222573940610695341
+  * `add_to_heap_if_necessary(i + 1, j)`を関数化した方がよい
+  * (x - 1, y) と (x, y - 1) が両方 pairs の中にある、または、x, y どちらかが0でなければ、heap に足さなくていいとは思うんですよね。 
+
+```javascript
+const kSmallestPairs = function(nums1, nums2, k) {
+    const candidates = new PriorityQueue((index_pair1, index_pair2) => {
+        const [i1, j1] = index_pair1
+        const [i2, j2] = index_pair2
+        return nums1[i1] + nums2[j1] - (nums1[i2] + nums2[j2])
+    })
+    const seen = new Set()
+
+    function add_to_heap_if_necessary(i, j) {
+        const key = `${i}_${j}`
+        if (seen.has(key)) {
+            return
+        }
+        if (i >= nums1.length || j >= nums2.length) {
+            return
+        }
+        if (i === 0 || j === 0) {
+            candidates.push([i, j])
+            seen.add(key)
+            return
+        }
+        const key1 = `${i - 1}_${j}`
+        const key2 = `${i}_${j - 1}`
+        if (seen.has(key1) && seen.has(key2)) {
+            candidates.push([i, j])
+            seen.add(key)
+            return
+        }
+    }
+
+    add_to_heap_if_necessary(0, 0)
+    const ans = []
+    while (ans.length < k) {
+        if (candidates.size() === 0) {
+            break
+        }
+        const [i, j] = candidates.pop()
+        ans.push([nums1[i], nums2[j]])
+
+        add_to_heap_if_necessary(i + 1, j)
+        add_to_heap_if_necessary(i, j + 1)
+    }
+    return ans
+};
+```
+
+* yield generatorを使った方法
+
+```javascript
+```
+
+* 右と下への探索ではなく、下方向のみにする方法もある。(右方向のみも可能)
+
+```
+```
+
