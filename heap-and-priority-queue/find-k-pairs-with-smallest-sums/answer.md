@@ -183,7 +183,7 @@ const kSmallestPairs = function(nums1, nums2, k) {
   * この関数がすごくわかりやすいと思った。
     * 条件ではなく、関数の全体に意識をもっていくことができる。
 
-```
+```python
         def need_to_add(x, y):
             if x >= len(nums1) or y >= len(nums2):
                 return False
