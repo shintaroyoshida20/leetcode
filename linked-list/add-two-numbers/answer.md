@@ -139,11 +139,13 @@ var addTwoNumbers = function(l1, l2) {
   * 再帰は、処理を子供に押し付けるというイメージを持つ。
 
 * この記法が勉強になった。(3つ以上の値の合計で重宝しそう)
-    ```
-        for curr_temp in [curr1, curr2]:
-          if curr_temp:
-            digit_sum += curr_temp.val 
-    ```
+
+```javascript
+    for curr_temp in [curr1, curr2]:
+      if curr_temp:
+        digit_sum += curr_temp.val 
+```
+
 * headのdummyを使わない方法がある (`*3`)
 
 * 再帰で書く際には、スタックサイズを意識する。 
@@ -169,7 +171,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * `*1` 再帰を用いた解法
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2, carry = 0) {
     if (!l1 && !l2 && !carry) return null
 
@@ -193,7 +195,8 @@ var addTwoNumbers = function(l1, l2, carry = 0) {
 ```
 
 * `*2` L1/L2の番兵を使う解法
-```
+
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
 
@@ -230,7 +233,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * `*3` headの番兵を使わない解放 
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let head = null
     let node = null
@@ -267,7 +270,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * 指摘前のコード
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
 
@@ -306,7 +309,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * for分の中で毎回番兵を作成するのは抵抗があるというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8#discussion_r2030588400)
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
 
@@ -343,7 +346,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * l1とl2を共通で良いというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8#discussion_r2032319371)
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
 
@@ -381,7 +384,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * 指摘前のコード
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let carry_over = 0
     let l1_node = l1
@@ -408,7 +411,7 @@ var addTwoNumbers = function(l1, l2) {
 
 * 変数宣言なしで変数を使用しているというコメントを頂いた後のコード (https://github.com/shintaroyoshida20/leetcode/pull/8#discussion_r2030575602)
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let carry_over = 0
     let l1_node = l1
@@ -433,9 +436,11 @@ var addTwoNumbers = function(l1, l2) {
 };
 ```
 
-```
 # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var#implicit_globals_and_outer_function_scope
+
 # 変数宣言なしで関数を使用した際には、グローバルスコープに暗黙的に宣言される。
+
+```javascript
 $ hello = 1
 $ console.log(hello)
 1
@@ -448,7 +453,7 @@ $ console.log(hello)
 
 * 指摘前のコード
 
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
 
@@ -492,7 +497,7 @@ var addTwoNumbers = function(l1, l2) {
      * 1e22以上の数や、1e-7以下の数で、エクスポネンシャルの記法を用いた場合、うまくいかない
      * 十分に大きい数や小さい数でも、うまくいかない。
      
-```
+```javascript
 var addTwoNumbers = function(l1, l2) {
     let sentinel = new ListNode()
 
