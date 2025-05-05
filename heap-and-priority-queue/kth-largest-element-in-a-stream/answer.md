@@ -345,7 +345,7 @@ KthLargest.prototype.add = function(val) {
 
 * parentIdxをビット操作で求める方法にも慣れる
 
-```
+```javascript
 const parentIdx = (idx - 1) >> 1
 ```
 
