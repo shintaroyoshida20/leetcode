@@ -173,3 +173,49 @@ const twoSum = function(nums, target) {
 ```javascript
     const nums_with_index = nums.map((value, index) => ({ value, index })
 ```
+
+## レビューを踏まえて
+
+### レビュー(1) エラーのハンドリングについて
+
+* 変更前
+
+```javascript
+const twoSum = function(nums, target) {
+    const num_to_index = new Map()
+    for (const idx_str in nums) {
+        const idx = Number(idx_str)
+        const num = nums[idx]
+        const twin_num = target - num
+        if (num_to_index.has(twin_num)) {
+            const twin_idx = num_to_index.get(twin_num)
+            return [idx, twin_idx]
+        }
+        num_to_index.set(num, idx)
+    }
+    return new Error("pair is not found")
+};
+```
+
+* 実行を中断したいのであれば、`return new Exception`ではなく、`throw new Exception`をすべきというコメントを受けた
+
+* 変更後
+
+```javascript
+const twoSum = function(nums, target) {
+    const num_to_index = new Map()
+    for (const idx_str in nums) {
+        const idx = Number(idx_str)
+        const num = nums[idx]
+        const twin_num = target - num
+        if (num_to_index.has(twin_num)) {
+            const twin_idx = num_to_index.get(twin_num)
+            return [idx, twin_idx]
+        }
+        num_to_index.set(num, idx)
+    }
+    // UPDATED
+    throw new Error("pair is not found")
+};
+```
+
