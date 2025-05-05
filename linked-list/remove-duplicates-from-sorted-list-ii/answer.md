@@ -157,10 +157,9 @@ var deleteDuplicates = function(head) {
   * hayashi-ayのコード github.com/hayashi-ay/leetcode/pull/23/
     * 状態(`value_to_remove`)を1つ余計に持つので、理解するのが大変。
     * 関数における主役となる変数を意識したことがなかった。
-        ```
-            これは趣味の範囲ですが、current_node は名前として長い感じがします。
-            ここのループにおいては主役なんだから、主役に、他と区別するためではない形容詞がついているのは不自然なんです。
-        ```
+        * (oda) これは趣味の範囲ですが、current_node は名前として長い感じがします。
+          ここのループにおいては主役なんだから、主役に、他と区別するためではない形容詞がついているのは不自然なんです。
+
   * ryotaroのコード https://github.com/Ryotaro25/leetcode_first60/pull/4
     * 数をカウントして、1回しか出てこない値を連携リストに追加していく方法でも解けることを知った。
       * 単純明快なため、まずこの解法を思いつきたかった。
@@ -179,7 +178,7 @@ var deleteDuplicates = function(head) {
 
 #### node 変数と sentinel 変数のみを用いて処理
 
-```
+```javascript
     var deleteDuplicates = function(head) {
         let sentinel = new ListNode(0, head)
         let node = sentinel
