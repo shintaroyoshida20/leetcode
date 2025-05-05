@@ -14,15 +14,16 @@
 * 解法(1)の感想 
   * 2つ目のWhile分のnullチェックを忘れてしまった。ノードを次に進める際には、nullチェックをセットでやるようにする。
 
-    * 誤り 
-      ```
-        while (current.val === nextNode.val) {
-      ```
+誤り 
 
-    * 正しい
-      ```
-        while (nextNode && current.val === nextNode.val) {
-      ```
+```javascript
+  while (current.val === nextNode.val) {
+```
+
+正しい
+```javascript
+  while (nextNode && current.val === nextNode.val) {
+```
 
 ```javascript
 var deleteDuplicates = function(head) {
@@ -73,15 +74,16 @@ var deleteDuplicates = function(head) {
 
 * 情報量は同じだと考えたので、nullチェックを短縮記法に切り替えた。
 
-  * 変更前
-    ```
-        while (current !== null && current.next !== null) {
-    ```
+(変更前)
 
-  * 変更後
-    ```
-        while (current && current.next) {
-    ```
+```javascript
+    while (current !== null && current.next !== null) {
+```
+
+(変更後)
+```javascript
+    while (current && current.next) {
+```
 
 ### 解法
 
@@ -126,9 +128,9 @@ var deleteDuplicates = function(head) {
 
 * nextNodeが参照渡しなので、currentの変数をそのまま操った方が良いのだろうか? 
 
-  ```
-      let nextNode = current.next
-  ```
+```javascript
+    let nextNode = current.next
+```
 
 ### 他の人のコードを読んでみて
 
@@ -137,29 +139,31 @@ var deleteDuplicates = function(head) {
 
   以下の修正を加えることでコードの可読性が上がった。elseを消せるなら消すようにする。
 
-  * 変更前
-    ```
-        while (current !== null) {
-            let nextNode = current.next
-            if (nextNode && current.val === nextNode.val) {
-                current.next = nextNode.next
-            } else {
-                current = nextNode
-            }
-        }
-    ```
+(変更前)
 
-  * 変更後
-    ```
-        while (current !== null && current.next !== null) {
-            let nextNode = current.next
-            if (current.val === nextNode.val) {
-                current.next = nextNode.next
-                continue
-            }
+```javasciprt
+    while (current !== null) {
+        let nextNode = current.next
+        if (nextNode && current.val === nextNode.val) {
+            current.next = nextNode.next
+        } else {
             current = nextNode
         }
-    ```
+    }
+```
+
+(変更後)
+
+```javascript
+    while (current !== null && current.next !== null) {
+        let nextNode = current.next
+        if (current.val === nextNode.val) {
+            current.next = nextNode.next
+            continue
+        }
+        current = nextNode
+    }
+```
 
 * Ryotaro25のコード https://github.com/Ryotaro25/leetcode_first60/pull/3/files#diff-c8b6f462fd73888b238b8adf87cc3916bfdfb2c62841dc01cdef02ec937747c3 
   * すごく読みやすかった。
