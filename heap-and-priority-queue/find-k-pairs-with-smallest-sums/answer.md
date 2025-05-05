@@ -293,7 +293,7 @@ const kSmallestPairs = function(nums1, nums2, k) {
 
 * (`*1`) setを使わずに解く方法 https://github.com/TORUS0818/leetcode/pull/12#discussion_r1623146530
 
-```
+```javascript
 const kSmallestPairs = function(nums1, nums2, k) {
     //  \  i_1, i_2, i_3, ... (nums1)
     // j_1  O    O    X
@@ -454,7 +454,7 @@ const kSmallestPairs = function(nums1, nums2, k) {
   * num1 が右方向に、
   * num2 が下方向に伸びていると考える。
 
-```
+```javascript
 // 下方向のみに探索する方法.
 const kSmallestPairs = function(nums1, nums2, k) {
     const candidates = new PriorityQueue((coord1, coord2) => {
@@ -547,7 +547,8 @@ var kSmallestPairs = function(nums1, nums2, k) {
 
 * (`*6`) iが0の時だけ、下方向に行き、それ以外は右方向を探索するという方法もある。
   * この方法だと、Setを使わなく良く、シンプルなため好み。
-```
+
+```javascript
 const kSmallestPairs = function(nums1, nums2, k) {
     function pair(i, j) {
         return [nums1[i], nums2[j]]
