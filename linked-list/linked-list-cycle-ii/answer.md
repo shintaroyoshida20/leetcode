@@ -43,12 +43,15 @@ var detectCycle = function(head) {
   * このエラーのデバッグに時間がかかった。
 
 正しい 
-```
+
+```javascript
     let faster_node = head
     let slower_node = head
 ```
+
 誤り 
-```
+
+```javascript
     let faster_node = head.next
     let slower_node = head
 ```
