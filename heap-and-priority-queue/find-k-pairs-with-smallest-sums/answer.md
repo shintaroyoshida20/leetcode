@@ -116,6 +116,10 @@ const kSmallestPairs = function(nums1, nums2, k) {
 };
 ```
 
+* [0, 0]から右方向/下方向に探索し、[i,j-1]と[i-1,j]がseenだった場合に追加する。
+
+* yieldを用いる方法
+
 ## STEP3
 
 * nums1, nums2no全ての組み合わせを探索する方法.
@@ -154,11 +158,13 @@ const kSmallestPairs = function(nums1, nums2, k) {
 ## 感想
 
 * 3回書く中で、頭の中が整理されてくる感覚を持つことができた。
-* 先頭と最後を、対応させると書きやすい。
+* マトリューシカのように外側から書くと書きやすい。
 
 ### コメント集を読んで
 
-* k個未満の要素が返ってきた時にどうするか? 
+* yieldのgeneratorを使った実装と分割統治法の実装の理解に時間がかかった。
+
+* 射影の箇所は理解できず、スキップした。
 
 ### 他の人のコードを読んで
 
@@ -170,18 +176,77 @@ const kSmallestPairs = function(nums1, nums2, k) {
     * 長くなった場合には、for/while statementの中で制御することも検討する。 
     * while statement / for statementの主役となる変数を元に考えれば良さそう。
 
+* hayashi-ayのコード
+  * PR: https://github.com/hayashi-ay/leetcode/pull/66
+  * この関数がすごくわかりやすいと思った。
+    * 条件ではなく、関数の全体に意識をもっていくことができる。
+
+```
+        def need_to_add(x, y):
+            if x >= len(nums1) or y >= len(nums2):
+                return False
+            if x == 0 or y == 0:
+                return True
+            return (x - 1, y) in added and (x, y - 1) in added
+        def add_to_candidates_if_necessary(x, y):
+            if need_to_add(x, y):
+                heapq.heappush(candidates, (nums1[x] + nums2[y], x, y))
+```
+
+* Ryotaro25のコード 
+  * PR: https://github.com/Ryotaro25/leetcode_first60/pull/11
+  * early returnをすると読みやすくなる。
+  * if/else if ではなく、ifとcontinueでelse文を消して欲しい.
+
+* olsen-blueのコード
+  * PR: https://github.com/olsen-blue/Arai60/pull/10/ 
+  * 毎回はheapに追加をしない関数に対して、`_if_necessary` や`maybe_heappush`という名前を使えると確かに読み手に優しい。
+
 * YukiMichishitaのコード
   * PR : https://github.com/YukiMichishita/LeetCode/pull/4/
   * 二方向ではなく、一方向だけチェックすればよい。
 
-* https://github.com/nittoco/leetcode/pull/33/
-  * 
+* エラーハンドリングについて 
+  * Javascriptのdatstructure-js/priority-queueだと、空の状態でpopすると、nullが返ってくる。
+    https://github.com/datastructures-js/heap/blob/master/src/heap.js#L208-L211
+
+(変更前)
+
+```javascript
+    while (ans.length < k) {
+        const [i, j] = candidates.pop()
+        ans.push([nums1[i], nums2[j]])
+        if (j + 1 < nums2.length) {
+            candidates.push([i, j + 1])
+        }
+    }
+    return ans
+```
+
+(変更前)
+
+```javascript
+    while (ans.length < k) {
+        // UPDATED: エラーハンドリングを追加。
+        if (candidates.size() === 0) {
+            // k個未満の要素しか存在しない場合には、
+            // あるだけの要素を返すようにする。
+            break
+        }
+        const [i, j] = candidates.pop()
+        ans.push([nums1[i], nums2[j]])
+        if (j + 1 < nums2.length) {
+            candidates.push([i, j + 1])
+        }
+    }
+    return ans
+```
 
 * https://github.com/TORUS0818/leetcode/pull/12/
 
 ## その他の解法
 
-* LeetCodeの解法 (左上を基点として、右方向/下方向に伸びていく方法)
+* (`*0`) LeetCodeの解法 (左上を基点として、右方向/下方向に伸びていく方法)
   発想(手でやる)
   * 1. [0,0]を箱に入れる。
   * 2. 最小の和となるペアを箱から取り出す。
@@ -226,7 +291,7 @@ const kSmallestPairs = function(nums1, nums2, k) {
 };
 ```
 
-* setを使わずに解く方法 https://github.com/TORUS0818/leetcode/pull/12#discussion_r1623146530
+* (`*1`) setを使わずに解く方法 https://github.com/TORUS0818/leetcode/pull/12#discussion_r1623146530
 
 ```
 const kSmallestPairs = function(nums1, nums2, k) {
@@ -286,10 +351,11 @@ const kSmallestPairs = function(nums1, nums2, k) {
 };
 ```
 
-* ahayashiのPR に対するOdaのコメントを考慮した方法 
+* (`*2`) ahayashiのPR に対するOdaのコメントを考慮した方法 
   * 参考: https://discord.com/channels/1084280443945353267/1200089668901937312/1222573940610695341
-  * `add_to_heap_if_necessary(i + 1, j)`を関数化した方がよい
-  * (x - 1, y) と (x, y - 1) が両方 pairs の中にある、または、x, y どちらかが0でなければ、heap に足さなくていいとは思うんですよね。 
+  * 以下の2つのコメント
+    * `add_to_heap_if_necessary(i + 1, j)`を関数化した方がよい
+    * (x - 1, y) と (x, y - 1) が両方 pairs の中にある、または、x, y どちらかが0でなければ、heap に足さなくていいとは思うんですよね。 
 
 ```javascript
 const kSmallestPairs = function(nums1, nums2, k) {
@@ -338,13 +404,175 @@ const kSmallestPairs = function(nums1, nums2, k) {
 };
 ```
 
-* yield generatorを使った方法
+* (`*3`) yield generatorを使った方法
 
 ```javascript
+const kSmallestPairs = function(nums1, nums2, k) {
+    function sum(pair) {
+        const [i, j] = pair
+        return nums1[i] + nums2[j]
+    }
+    function* generator(j) {
+        if (j >= nums2.length) {
+            yield [Infinity, Infinity]
+            return
+        }
+        yield [0, j]
+        let i = 1
+        // j+1行目以降の最小値と j行目の最小値を比較する。
+        for (const next_row_pair of generator(j + 1)) {
+            if (next_row_pair[0] === Infinity) { 
+                while (i < nums1.length) {
+                    yield[i, j]
+                    ++i
+                }
+                return
+            }
+            while (i < nums1.length && sum([i, j]) <= sum(next_row_pair)) {
+                yield [i, j]
+                ++i
+            }
+            yield next_row_pair
+        }
+    }
+    const ans = []
+    const iterator = generator(0)
+    while (ans.length < k) {
+        const next = iterator.next()
+        if (next.done) {
+            break
+        }
+        const [i, j] = next.value
+        console.log(i, j)
+        ans.push([nums1[i], nums2[j]])
+    }
+    return ans
+};
 ```
 
-* 右と下への探索ではなく、下方向のみにする方法もある。(右方向のみも可能)
+* (`*4`) 右と下への探索ではなく、下方向のみにする方法もある。(右方向のみも可能)
+  * num1 が右方向に、
+  * num2 が下方向に伸びていると考える。
 
 ```
+// 下方向のみに探索する方法.
+const kSmallestPairs = function(nums1, nums2, k) {
+    const candidates = new PriorityQueue((coord1, coord2) => {
+        const [i1, j1] = coord1
+        const [i2, j2] = coord2
+        return nums1[i1] + nums2[j1] - (nums1[i2] + nums2[j2])
+    })
+    for (const num1 in nums1) {
+        candidates.push([Number(num1), 0])
+    }
+
+    const ans = []
+    while (ans.length < k) {
+        const [i, j] = candidates.pop()
+        ans.push([nums1[i], nums2[j]])
+        if (j + 1 < nums2.length) {
+            candidates.push([i, j + 1])
+        }
+    }
+    return ans
+};
 ```
 
+* (`*5`) 分割統治法と再帰を用いて実装する方法
+
+```javascript
+var kSmallestPairs = function(nums1, nums2, k) {
+    function pair(i, j) {
+        return [i, j]
+    }
+    function sum(pair) {
+        const [i, j] = pair
+        return nums1[i] + nums2[j]
+    }
+    function* generateLine(j) {
+        for (let i = 0; i < nums1.length; i++) {
+            yield pair(i, j)
+        }
+        yield [Infinity, Infinity]
+    }
+    // j <= target < j_max
+    function* generateRange(j, j_max) {
+        if (j >= j_max) {
+            yield [Infinity, Infinity]
+            return
+        }
+        if (j === j_max - 1) {
+            const generator = generateLine(j)
+            while (true) {
+                const next = generator.next()
+                if (next.done) {
+                    break
+                }
+                yield next.value
+            }
+            return
+        }
+        const j_middle = Math.floor((j + j_max) / 2)
+        const generator_former = generateRange(j, j_middle)
+        const generator_latter = generateRange(j_middle, j_max)
+        for (let i = j; i < j_middle; i++) {
+            const next = generator_former.next()
+            yield next.value
+        }
+        let former = generator_former.next()
+        let latter = generator_latter.next()
+        while (true) {
+            if (sum(former.value) <= sum(latter.value)) {
+                yield former.value
+                former = generator_former.next()
+                continue
+            }
+            yield latter.value
+            latter = generator_latter.next()
+        }
+    }
+    const ans = []
+    const iterator = generateRange(0, nums2.length)
+    while (ans.length < k) {
+        const next = iterator.next()
+        if (next.done) {
+            break
+        }
+        const [i, j] = next.value
+        ans.push([nums1[i], nums2[j]])
+    }
+    return ans
+};
+```
+
+* (`*6`) iが0の時だけ、下方向に行き、それ以外は右方向を探索するという方法もある。
+  * この方法だと、Setを使わなく良く、シンプルなため好み。
+```
+const kSmallestPairs = function(nums1, nums2, k) {
+    function pair(i, j) {
+        return [nums1[i], nums2[j]]
+    }
+    const top_k = new PriorityQueue((pair1, pair2) => {
+        const [i1, j1] = pair1
+        const [i2, j2] = pair2
+        return nums1[i1] + nums2[j1] - (nums1[i2] + nums2[j2])
+    })
+    top_k.push([0, 0])
+
+    const ans = []
+    while (ans.length < k) {
+        if (top_k.size() === 0) {
+            break
+        }
+        const [i, j] = top_k.pop()
+        ans.push(pair(i, j))
+        if (i === 0 && j + 1 < nums2.length) {
+            top_k.push([i, j + 1])
+        }
+        if (i + 1 < nums1.length) {
+            top_k.push([i + 1, j])
+        }
+    }
+    return ans
+};
+```
