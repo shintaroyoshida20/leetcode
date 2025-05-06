@@ -112,6 +112,10 @@ const groupAnagrams = function(strs) {
 
 const arrayToVarLenQuantity = function(array) {
     for (let i = 0; i < array.length; i++) {
+        // 問題の入力で、strs[i].length  <= 100のため。
+        if (array[i] > 256) {
+           throw new Error("invalid input")
+        }
         if (array[i] < 16) {
             array[i] = '0x0' + array[i].toString(16)
             continue
@@ -342,6 +346,10 @@ const groupAnagrams = function(strs) {
 
 const arrayToVarLenQuantity = function(array) {
     for (var i = 0; i < array.length; i++) {
+        // 問題の入力で、strs[i].length  <= 100のため。
+        if (array[i] > 256) {
+           throw new Error("invalid input")
+        }
         if (array[i] < 16) {
             array[i] = "0x0" + array[i].toString(16)
             continue
