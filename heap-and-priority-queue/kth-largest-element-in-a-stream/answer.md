@@ -386,6 +386,8 @@ const parentIdx = (idx - 1) >> 1
 
 ### レビュー(1) if/else文 
 
+* (変更前)
+
 ```javascript
 const KthLargest = function(k, nums) {
     nums.sort((a, b) => a - b)
@@ -416,6 +418,8 @@ KthLargest.prototype.add = function(val) {
 ```
 
 * コメント: break文を先に書くことで、コードが読みやすくなる。
+
+* (変更後)
 
 ```javascript
 const KthLargest = function(k, nums) {
