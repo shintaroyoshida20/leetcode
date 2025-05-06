@@ -431,6 +431,7 @@ const KthLargest = function(k, nums) {
 KthLargest.prototype.add = function(val) {
     this.nums.push(val)
     for (let i = this.nums.length - 1; i >= 1; i--) {
+        // UPDATED.
         if (this.nums[i - 1] <= this.nums[i]) {
             break
         }
