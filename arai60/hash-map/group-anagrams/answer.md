@@ -157,7 +157,7 @@ const groupAnagrams = function(strs) {
 
 * (正しい)
 
-```
+```javascript
 const groupAnagrams = function(strs) {
     const sorted_words = strs.map((word) => word.split('').sort().join(''))
     const indices = [...Array(strs.length).keys()]
@@ -188,7 +188,31 @@ const groupAnagrams = function(strs) {
 
 ### コメント集を読んで
 
+* Javascriptでは配列のnegative indexがないが、pythonではnegative indexが有効なため、
+  不正なinputが入ってきた際に誤判定されることがある。
+
+* 呼び出し側/関数側で、何を前提とエラーを検知しようとしないか、何のエラーを検知するかを意識する。
+
 ### 他の人のPRを読んで
+
+* Javascriptで取り組んでいるため、C++の言語仕様の議論についていけていない。
+  * どこまで、C++の仕組みや議論について理解を進めるのが良いのだろうか?
+  * 参考: https://github.com/Ryotaro25/leetcode_first60/pull/13/files#r1636916877
+
+* Pythonのdefaultdictのkeyについて、何を入力としてOKかを調べようとしたが、ドキュメントを探しても見つからず調べ方を教えて欲しいです。
+  * 参考: https://github.com/olsen-blue/Arai60/pull/12/files#r1915836160
+
+* olsen-blue
+  * PR: https://github.com/olsen-blue/Arai60/pull/12/
+  * Javascriptにはない、defaultdictを使うと、mapの初期化のコードが不要となる。
+
+* Ryotaro25
+  * PR: https://github.com/Ryotaro25/leetcode_first60/pull/13/
+  * 赤黒木のコードの理解はSKIPし、Arai60をやり終えてから取り組むこととする。
+
+* hayashi-ay
+  * PR: https://github.com/hayashi-ay/leetcode/pull/19/ 
+  * defaultdictのkeyに、tupleを使えることが知らなかった。
 
 ## その他の解法
 
@@ -243,7 +267,7 @@ const groupAnagrams = function(strs) {
 
 ### `*3` 文字数をカウントする方法もある
 
-```
+```javascript
 const groupAnagrams = function(strs) {
     const valid_inputs = 'abcdefghijklmnopqrstuvwxyz'
     const key_to_anagrams = {}
@@ -317,5 +341,4 @@ const arrayToVarLenQuantity = function(array) {
     }
     return array.join('')
 }
-
 ```
