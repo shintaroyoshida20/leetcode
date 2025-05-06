@@ -381,3 +381,62 @@ const parentIdx = (idx - 1) >> 1
 * fhiyo https://github.com/fhiyo/leetcode/pull/10/
   * index > 0 は hasParentという関数に切り出しても良い
   * heapifyが半分の要素のみsiftUpすれば良いというのが直感で理解できない。 
+
+## レビューコメントを受けて
+
+### レビュー(1) if/else文 
+
+```javascript
+const KthLargest = function(k, nums) {
+    nums.sort((a, b) => a - b)
+    this.nums = nums
+    this.k = k
+};
+
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+KthLargest.prototype.add = function(val) {
+    this.nums.push(val)
+    for (let i = this.nums.length - 1; i >= 1; i--) {
+        if (this.nums[i] < this.nums[i - 1]) {
+            const tmp = this.nums[i - 1]
+            this.nums[i - 1] = this.nums[i]
+            this.nums[i] = tmp
+        } else {
+            break
+        }
+    }
+    if (this.k > this.nums.length) {
+        throw new Error("k is invalid value")
+    }
+    return this.nums[this.nums.length - this.k]
+};
+```
+
+* コメント: break文を先に書くことで、コードが読みやすくなる。
+
+```javascript
+const KthLargest = function(k, nums) {
+    nums.sort((a, b) => a - b)
+    this.nums = nums
+    this.k = k
+};
+
+KthLargest.prototype.add = function(val) {
+    this.nums.push(val)
+    for (let i = this.nums.length - 1; i >= 1; i--) {
+        if (this.nums[i - 1] <= this.nums[i]) {
+            break
+        }
+        const tmp = this.nums[i - 1]
+        this.nums[i - 1] = this.nums[i]
+        this.nums[i] = tmp
+    }
+    if (this.k > this.nums.length) {
+        throw new Error("k is invalid value")
+    }
+    return this.nums[this.nums.length - this.k]
+};
+```
