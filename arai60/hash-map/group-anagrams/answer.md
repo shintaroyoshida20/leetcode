@@ -186,6 +186,19 @@ const groupAnagrams = function(strs) {
 
 ## 感想
 
+* Mapとobjectを使った方法があるが、それぞれの特徴について理解ができていなかった。調べたところ、Mapの方が優れているらしい。
+  * 元々は、Objectがmapとして使われていた。
+  * Mapは、以下の3点でobjectよりも優れている。
+    * 1. 挿入した順序で、keyを操作(iterate)できること。
+    * 2. sizeは、objectの場合自前で実装しないといけないが、mapの場合size関数を使える。
+    * 3. Objectのkeyは、stringのdatatypeのみだが、mapのkeyは、Integerなどどのような型でも大丈夫なこと。
+  * 参考 : https://stackoverflow.com/a/18541990
+
+
+* Javascriptで取り組んでいるため、C++の言語仕様の議論についていけていない。
+  * どこまで、C++の仕組みや議論について理解を進めるのが良いのだろうか?
+  * 参考: https://github.com/Ryotaro25/leetcode_first60/pull/13/files#r1636916877
+
 ### コメント集を読んで
 
 * Javascriptでは配列のnegative indexがないが、pythonではnegative indexが有効なため、
@@ -194,10 +207,6 @@ const groupAnagrams = function(strs) {
 * 呼び出し側/関数側で、何を前提とエラーを検知しようとしないか、何のエラーを検知するかを意識する。
 
 ### 他の人のPRを読んで
-
-* Javascriptで取り組んでいるため、C++の言語仕様の議論についていけていない。
-  * どこまで、C++の仕組みや議論について理解を進めるのが良いのだろうか?
-  * 参考: https://github.com/Ryotaro25/leetcode_first60/pull/13/files#r1636916877
 
 * Pythonのdefaultdictのkeyについて、何を入力としてOKかを調べようとしたが、ドキュメントを探しても見つからず調べ方を教えて欲しいです。
   * 参考: https://github.com/olsen-blue/Arai60/pull/12/files#r1915836160
