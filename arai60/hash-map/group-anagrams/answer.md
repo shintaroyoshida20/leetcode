@@ -85,7 +85,7 @@ const groupAnagrams = function(strs) {
 };
 ```
 
-* 数字をカウントする方法
+* wordごとに、アルファベットの出現回数をカウントする方法
 
 ```javascript
 const groupAnagrams = function(strs) {
