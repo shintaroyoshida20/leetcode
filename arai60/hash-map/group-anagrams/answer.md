@@ -85,6 +85,43 @@ const groupAnagrams = function(strs) {
 };
 ```
 
+* 数字をカウントする方法
+
+```javascript
+const groupAnagrams = function(strs) {
+    const valid_inputs = 'abcdefghijklmnopqrstuvwxyz'
+    const key_to_anagrams = {}
+    for (const word of strs) {
+        const char_count = new Array(26).fill(0)
+        for (const ch of word) {
+            if (!valid_inputs.includes(ch)) {
+                throw new Error("invalid input")
+            }
+            const idx = ch.charCodeAt(0) - 'a'.charCodeAt(0)
+            char_count[idx]++
+        }
+        const key = arrayToVarLenQuantity(char_count)
+        if (key_to_anagrams[key] === undefined) {
+            key_to_anagrams[key] = [word]
+            continue
+        }
+        key_to_anagrams[key].push(word)
+    }
+    return Object.values(key_to_anagrams)
+};
+
+const arrayToVarLenQuantity = function(array) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] < 16) {
+            array[i] = '0x0' + array[i].toString(16)
+            continue
+        }
+        array[i] = '0x' + array[i].toString(16)
+    }
+    return array.join('')
+}
+```
+
 ## 動かないコードの例
 
 * (誤り)
@@ -155,7 +192,7 @@ const groupAnagrams = function(strs) {
 
 ## その他の解法
 
-* `*1` MapではなくObjectを用いる方法
+### `*1` MapではなくObjectを用いる方法
 
 ```javascript
 const groupAnagrams = function(strs) {
@@ -172,12 +209,12 @@ const groupAnagrams = function(strs) {
     return Object.values(sorted_to_anagrams)
 };
 ```
-* `*2` AlgoExpertにあった回答
-  * 発想は、インデックスを保持した状態で、配列をAnagarmごとにソートする。
-    これだと、Mapが不要になる。
-    しかし、時間計算量は、他のN * W log W に比べて、N log N
-  * Javascriptで、rangeを作る方法はこちらのStackoverflowを参照した。
-    参考: https://stackoverflow.com/questions/3895478/does-javascript-have-a-method-like-range-to-generate-a-range-within-the-supp
+### `*2` AlgoExpertにあった回答
+* 発想は、インデックスを保持した状態で、配列をAnagarmごとにソートする。
+  これだと、Mapが不要になる。
+  しかし、時間計算量は、他のN * W log W に比べて、N log N
+* Javascriptで、rangeを作る方法はこちらのStackoverflowを参照した。
+  参考: https://stackoverflow.com/questions/3895478/does-javascript-have-a-method-like-range-to-generate-a-range-within-the-supp
 
 ```javascript
 const groupAnagrams = function(strs) {
@@ -204,3 +241,81 @@ const groupAnagrams = function(strs) {
 };
 ```
 
+### `*3` 文字数をカウントする方法もある
+
+```
+const groupAnagrams = function(strs) {
+    const valid_inputs = 'abcdefghijklmnopqrstuvwxyz'
+    const key_to_anagrams = {}
+    for (const word of strs) {
+        const char_count = new Array(26).fill(0)
+        for (const ch of word) {
+            if (!valid_inputs.includes(ch)) {
+                throw new Error("invalid input")
+            }
+            const idx = ch.charCodeAt(0) - 'a'.charCodeAt(0)
+            ++char_count[idx]
+        }
+        const key = JSON.stringify(char_count)
+        if (key_to_anagrams[key] === undefined) {
+            key_to_anagrams[key] = [word]
+            continue
+        }
+        key_to_anagrams[key].push(word)
+    }
+    return Object.values(key_to_anagrams)
+};
+```
+
+### `*4` 文字列のシリアライズ / エスケープシーケンス / 可変長数値表現で表現する。
+
+* 文字列のシリアライズ
+
+```javascript
+        const key = JSON.stringify(char_count)
+```
+
+* エスケープシーケンス
+
+```javascript
+        const key = char_count.join("\t")
+```
+
+* 可変長数値表現 (Variable Length Quantity)
+
+```javascript
+const groupAnagrams = function(strs) {
+    const valid_inputs = 'abcdefghijklmnopqrstuvwxyz'
+    const key_to_anagrams = {}
+    for (const word of strs) {
+        const char_count = new Array(26).fill(0)
+        for (const ch of word) {
+            if (!valid_inputs.includes(ch)) {
+                throw new Error("invalid input")
+            }
+            const idx = ch.charCodeAt(0) - 'a'.charCodeAt(0)
+            ++char_count[idx]
+        }
+        const key = arrayToVarLenQuantity(char_count)
+        console.log(key)
+        if (key_to_anagrams[key] === undefined) {
+            key_to_anagrams[key] = [word]
+            continue
+        }
+        key_to_anagrams[key].push(word)
+    }
+    return Object.values(key_to_anagrams)
+};
+
+const arrayToVarLenQuantity = function(array) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] < 16) {
+            array[i] = "0x0" + array[i].toString(16)
+            continue
+        }
+        array[i] = "0x" + array[i].toString(16)
+    }
+    return array.join('')
+}
+
+```
