@@ -72,6 +72,9 @@ const intersection = function(nums1, nums2) {
 
 ## 感想
 
+* STEP1で使用した方法が、CountingSortの概念と近いというコメントを見て、
+  Counting Sortを勉強したところ、配列の要素をマイナス側に更新するところが類似していた。
+
 ### コメント集を読んで
 
 * 両方が大きい場合
@@ -81,6 +84,7 @@ const intersection = function(nums1, nums2) {
   * メモリの制約がない場合には、setを作成して解く。
     空間計算量が、O(N + M)
     時間計算量が、O(N + M)
+      * 内訳は、setの作成にO(N) + O(M)で、intersectionの作成は、O(min(N, M))
 
 * 片方が大きい場合 
   * 小さい方の配列の要素数をN, 大きい方の配列の要素数をMとする
@@ -88,6 +92,23 @@ const intersection = function(nums1, nums2) {
   * バイナリサーチを用いる。
     * 時間計算量 O(N * logM)
     * 空間計算量 O(N)
+
+### 他の人のコードを読んで
+
+* hayashi-ay
+  * PR: https://github.com/hayashi-ay/leetcode/pull/21/
+
+* Ryotaro25
+  * PR: https://github.com/Ryotaro25/leetcode_first60/pull/14/
+
+* olsen-blue
+  * PR: https://github.com/olsen-blue/Arai60/pull/13/
+  * binary searchの終了条件について、曖昧に理解していたので、
+    理解ができた。
+    参考: https://github.com/olsen-blue/Arai60/pull/13/files#r1911982288 
+
+* hroc135
+  * PR: https://github.com/hroc135/leetcode/pull/13/
 
 ## その他の解法
 
