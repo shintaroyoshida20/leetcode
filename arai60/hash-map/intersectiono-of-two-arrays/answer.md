@@ -264,7 +264,8 @@ const intersection = function(nums1, nums2) {
 
 * セルフレビュー
   * `j++`と`i++`がwhileの外にあって読みづらい.
-  * 簡単なIF文を先に処理した方が良さそう
+  * どの条件式をearly returnにするか? 
+    * ロジックが長いものは、後ろに回す。
 
 ```javascript
 const intersection = function(nums1, nums2) {
