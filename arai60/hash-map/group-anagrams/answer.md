@@ -85,10 +85,122 @@ const groupAnagrams = function(strs) {
 };
 ```
 
+## 動かないコードの例
+
+* (誤り)
+
+```javascript
+const groupAnagrams = function(strs) {
+    const sorted_words = strs.map((word) => word.split('').sort().join(''))
+    const indices = [...Array(strs.length).keys()]
+
+    indices.sort((idx_a, idx_b) => sorted_words[idx_a] - sorted_words[idx_b])
+    const ans = []
+    let current_sorted_word = sorted_words[indices[0]]
+    let anagrams = [strs[indices[0]]]
+    for (let i = 1; i < indices.length; i++) {
+        const original_word = strs[indices[i]]
+        const sorted_word = sorted_words[indices[i]]
+        if (sorted_word === current_sorted_word) {
+            anagrams.push(original_word)
+            continue
+        }
+        ans.push(anagrams)
+        current_sorted_word = sorted_word
+        anagrams = [original_word]
+    }
+    return ans
+};
+```
+
+* 誤りは2点で、
+  * stringの引き算をしてしまっており、NaNとなりソートが正しく機能しない。
+  * For文の中でansにanagramsを追加するのが、不一致が発生したタイミングなので、
+    最後のanagramsを追加ができていない。
+
+* (正しい)
+
+```
+const groupAnagrams = function(strs) {
+    const sorted_words = strs.map((word) => word.split('').sort().join(''))
+    const indices = [...Array(strs.length).keys()]
+
+    // UPDATED.
+    indices.sort((idx_a, idx_b) => sorted_words[idx_a].localeCompare(sorted_words[idx_b]))
+    const ans = []
+    let current_sorted_word = sorted_words[indices[0]]
+    let anagrams = [strs[indices[0]]]
+    for (let i = 1; i < indices.length; i++) {
+        const original_word = strs[indices[i]]
+        const sorted_word = sorted_words[indices[i]]
+        if (sorted_word === current_sorted_word) {
+            anagrams.push(original_word)
+            continue
+        }
+        ans.push(anagrams)
+        current_sorted_word = sorted_word
+        anagrams = [original_word]
+    }
+    // UPDATED.
+    ans.push(anagrams)
+    return ans
+};
+```
+
 ## 感想
 
 ### コメント集を読んで
 
+### 他の人のPRを読んで
+
 ## その他の解法
 
 * `*1` MapではなくObjectを用いる方法
+
+```javascript
+const groupAnagrams = function(strs) {
+    const sorted_to_anagrams = {}
+    for (const original_word of strs) {
+        const sorted_word = original_word.split('').sort().join()
+        if (sorted_to_anagrams[sorted_word] === undefined) {
+            sorted_to_anagrams[sorted_word] = [original_word]
+            continue
+        }
+        sorted_to_anagrams[sorted_word].push(original_word)
+    }
+
+    return Object.values(sorted_to_anagrams)
+};
+```
+* `*2` AlgoExpertにあった回答
+  * 発想は、インデックスを保持した状態で、配列をAnagarmごとにソートする。
+    これだと、Mapが不要になる。
+    しかし、時間計算量は、他のN * W log W に比べて、N log N
+  * Javascriptで、rangeを作る方法はこちらのStackoverflowを参照した。
+    参考: https://stackoverflow.com/questions/3895478/does-javascript-have-a-method-like-range-to-generate-a-range-within-the-supp
+
+```javascript
+const groupAnagrams = function(strs) {
+    const sorted_words = strs.map((word) => word.split('').sort().join(''))
+    const indices = [...Array(strs.length).keys()]
+
+    indices.sort((idx_a, idx_b) => sorted_words[idx_a].localeCompare(sorted_words[idx_b]))
+    const ans = []
+    let current_sorted_word = sorted_words[indices[0]]
+    let anagrams = [strs[indices[0]]]
+    for (let i = 1; i < indices.length; i++) {
+        const original_word = strs[indices[i]]
+        const sorted_word = sorted_words[indices[i]]
+        if (sorted_word === current_sorted_word) {
+            anagrams.push(original_word)
+            continue
+        }
+        ans.push(anagrams)
+        current_sorted_word = sorted_word
+        anagrams = [original_word]
+    }
+    ans.push(anagrams)
+    return ans
+};
+```
+
