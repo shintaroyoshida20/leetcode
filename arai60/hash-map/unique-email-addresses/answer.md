@@ -152,9 +152,11 @@ const numUniqueEmails = function(emails) {
 
 * hayashi-ay
   * PR: https://github.com/hayashi-ay/leetcode/pull/25
-  * lambda関数を使う選択肢が勉強になった。
-    `local_without_dots = "".join(filter(lambda c: c != ".", local_ignore_alias))`
+  * lambda関数を使う選択肢が自分が持っておらず勉強になった。
     参考 : https://github.com/hayashi-ay/leetcode/pull/25/files#diff-d65d43698547a0f3cfcdb7f005de30ed4cd0c45ae015fd01094d6647cfa0a84aR177
+
+```javascript
+local_without_dots = "".join(filter(lambda c: c != ".", local_ignore_alias))```
 
 ## その他の方法
 
