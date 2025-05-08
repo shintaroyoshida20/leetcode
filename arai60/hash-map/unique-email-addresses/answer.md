@@ -2,6 +2,9 @@
 
 ## STEP1
 
+* 発想
+  * 文字列を適切なdelimineterでSplitすればできる。
+
 ```javascript
 const numUniqueEmails = function(emails) {
     const email_set = new Set()
