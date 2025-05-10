@@ -144,13 +144,79 @@ var deleteDuplicates = function(head) {
 };
 ```
 
+* 番兵を使い、かつ、引き継ぎ条件に最後に重複がない人の向き先が含まれている場合
+
+```javascript
+const deleteDuplicates = function(head) {
+    const sentinel = new ListNode(0, head)
+    let last_non_duplicate_node = sentinel
+    let node = head
+    while (node) {
+        let next = node.next
+        if (next === null) {
+            break
+        }
+        if (node.val !== next.val) {
+            last_non_duplicate_node = node
+            node = next
+            continue
+        }
+        while (node.val === next.val) {
+            next = next.next
+            if (next === null) {
+                break
+            }
+        }
+        last_non_duplicate_node.next = next
+        node = next
+    }
+    return sentinel.next
+};
+```
+
+* 番兵を使い、かつ、引き継ぎ条件に最後に重複がない人の向き先が含まれておらず、nullを向いている場合
+
+  * // 最初
+  * // [1,1,2,3 ...]
+  * // [1,2, ...]
+  * // 最後
+  * // [..., 99, 100, 100]
+  * // [..., 99, 100]
+
+```
+const deleteDuplicates = function(head) {
+    const sentinel = new ListNode(0, null)
+    let last_non_duplicate_node = sentinel
+    let node = head
+    while (node) {
+        let next = node.next
+        if (next === null) {
+            last_non_duplicate_node.next = node
+            break
+        }
+        if (node.val !== next.val) {
+            last_non_duplicate_node.next = node
+            last_non_duplicate_node = node
+            last_non_duplicate_node.next = null
+            node = next
+            continue
+        }
+        while (next && node.val === next.val) {
+            next = next.next
+        }
+        node = next
+    }
+    return sentinel.next
+};
+```
 ### 感想
 
 * まず、日本語で指示ができる状態を作る。
 
-
 * 連結リストで、初期値が簡単に設定できない場合、番兵を検討する
   * 番兵を使わなくても解けるので、重複したノードがあった際に、SKIPを行うロジックを思いつくことの方がより重要。
+
+* 初めて頭の中でシミュレータを回せた。
 
 * 他の人のコードを読んでみた感想
 
