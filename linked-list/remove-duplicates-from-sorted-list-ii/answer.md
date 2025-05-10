@@ -176,7 +176,7 @@ var deleteDuplicates = function(head) {
 
 ### 他の人の解法
 
-#### node 変数と sentinel 変数のみを用いて処理
+* `*1` node 変数と sentinel 変数のみを用いて処理
 
 ```javascript
     var deleteDuplicates = function(head) {
@@ -195,4 +195,75 @@ var deleteDuplicates = function(head) {
         }
         return sentinel.next
     };
+```
+
+* `*2` 引き継ぎ条件を変更する。
+
+  * `*0`の引き継ぎ条件は、
+    * 自分と最後に重複がない人は、重複していません。
+    * 最後に重複がない人の向き先は、自分に向いています。
+    * 自分と次のノードが重複している場合には、最後に重複がない人の向き先を変更します。
+    * 自分と次のノードが重複していない場合には、向き先を変更せず、最後に重複していない人と自分を更新します。
+
+```javascript
+// 引き継ぎ条件の中に、向き先が含まれている場合。
+const deleteDuplicates = function(head) {
+    const sentinel = new ListNode(0, head)
+    // last_non_duplicate_nodeの向き先は、先頭になっている。
+    let last_non_duplicate_node = sentinel
+    let node = head
+    while (node) {
+        let next = node.next
+        if (next === null) {
+            break
+        }
+        if (node.val !== next.val) {
+            last_non_duplicate_node = node
+            // last_non_duplicate_nodeの向き先は、nextに向いているので更新の必要なし。
+            node = next
+            continue
+        }
+        while (next && node.val === next.val) {
+            next = next.next
+        }
+        last_non_duplicate_node.next = next
+        node = next
+    }
+    return sentinel.next
+}
+```
+
+  * `*2`の引き継ぎ条件は、
+    * 自分と最後に重複がない人は、重複していません。
+    * 最後に重複がない人の向き先は、どこにも向いてません。
+    * 自分が次の人と重複がなかった場合のみ、最後に重複がない人の向き先を自分に向けます。自分の向き先を切ります。
+    * 自分が次の人と重複があった場合には、自分の更新のみを行います。
+
+```javascript
+// 引き継ぎ条件の中に、向き先が含まれていない場合。
+const deleteDuplicates = function(head) {
+    const sentinel = new ListNode(0, null) 
+    let last_non_duplicate_node = sentinel
+    let node = head
+    while (node) {
+        let next = node.next
+        if (next === null) {
+            last_non_duplicate_node.next = node
+            break
+        }
+        if (node.val !== next.val) {
+            last_non_duplicate_node.next = node
+            last_non_duplicate_node = node
+            node = next
+            // 最後に重複した人の向き先を切ります。
+            last_non_duplicate_node.next = null
+            continue
+        }
+        while (next && node.val === next.val) {
+            next = next.next
+        }
+        node = next
+    }
+    return sentinel.next
+};
 ```
