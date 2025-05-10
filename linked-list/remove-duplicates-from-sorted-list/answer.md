@@ -171,3 +171,29 @@ var deleteDuplicates = function(head) {
 * iroafternoonのコード https://github.com/irohafternoon/LeetCode/pull/5/files#r2008711802
   * メモリの領域(コード領域、データ領域、スタック領域、ヒープ領域)を意識してコードが書けていない https://discord.com/channels/1084280443945353267/1237649827240742942/1251960606077091981
   * まず単語を理解するところから始める。
+
+## その他の方法
+
+* `*1` 再帰を用いた方法
+  * https://github.com/utibori-jp/LeetCode_arai60/pull/3 のコードを見て、自分でも実装してみた。
+
+```javascript
+const findLastNonDuplicateNode = function(node) {
+    if (node === null) {
+        return null
+    }
+    if (node.next === null) {
+        return node
+    }
+
+    const lastNonDuplicateNode = findLastNonDuplicateNode(node.next)
+    if (node.val === lastNonDuplicateNode.val) {
+        return lastNonDuplicateNode
+    }
+    node.next = lastNonDuplicateNode
+    return node
+}
+const deleteDuplicates = function(head) {
+    return findLastNonDuplicateNode(head)
+};
+```
