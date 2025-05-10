@@ -297,3 +297,75 @@ const intersection = function(nums1, nums2) {
 };
 ```
 
+### レビュー (2) 配列の範囲外のアクセスを考慮した実装
+
+* 変更前
+
+```javascript
+const intersection = function(nums1, nums2) {
+    nums1.sort((a, b) => a - b)
+    nums2.sort((a, b) => a - b)
+
+    let i = 0
+    let j = 0
+    const result = []
+    while (i < nums1.length && j < nums2.length) {
+        if (nums1[i] === nums2[j]) {
+            result.push(nums1[i])
+            // nums1で異なる値がみつかるまで、iを増やす
+            while (nums1[i] === nums1[i+1] && i < nums1.length) {
+                i++
+            }
+            i++
+            // nums2で異なる値がみつかるまで、jを増やす
+            while (nums2[j] === nums2[j+1] && j < nums2.length) {
+                j++
+            }
+            j++
+            continue
+        }
+        if (nums1[i] < nums2[j]) {
+            i++
+            continue
+        }
+        j++
+    }
+    return result
+};
+```
+
+* 変更後
+
+```javascript
+const intersection = function(nums1, nums2) {
+    nums1.sort((a, b) => a - b)
+    nums2.sort((a, b) => a - b)
+
+    let i = 0
+    let j = 0
+    const result = []
+    while (i < nums1.length && j < nums2.length) {
+        if (nums1[i] === nums2[j]) {
+            result.push(nums1[i])
+            // UPDATED. 先にiがnums1の上に載っていることを確認する。
+            while (i < nums1.length && nums1[i] === nums1[i + 1]) {
+                i++
+            }
+            i++
+            // UPDATED. 先にjがnums2の上に載っていることを確認する。
+            while (j < nums2.length && nums2[j] === nums2[j + 1]) {
+                j++
+            }
+            j++
+            continue
+        }
+        if (nums1[i] < nums2[j]) {
+            i++
+            continue
+        }
+        j++
+    }
+    return result
+};
+```
+
