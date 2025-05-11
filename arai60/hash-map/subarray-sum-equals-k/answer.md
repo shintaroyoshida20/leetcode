@@ -62,6 +62,23 @@ const subarraySum = function(nums, k) {
 
 * 特に治すところはないと感じた。
 
+* STEP3をやった後に、感じた修正点
+
+  * sumという変数名よりもprefixSum, cumSumの方が良い。
+
+```javascript
+        if (!cumSumToCount.has(sum)) {
+            cumSumToCount.set(sum, 0)
+        }
+        cumSumToCount.set(sum, cumSumToCount.get(sum) + 1)
+```
+
+  * 以下の記法でも良い。(https://github.com/goto-untrapped/Arai60/pull/28/files#r1641918143のレビューを見て)
+
+```javascript
+        cumSumToCount.set(sum, (cumSumToCount.get(sum) || 0) + 1)
+```
+
 ```javascript
 const subarraySum = function(nums, k) {
     const cumSumToCount = new Map()
@@ -112,6 +129,67 @@ const subarraySum = function(nums, k) {
 
 ### コメント集を読んで
 
+* 特になし
+
+### 他の人のPRを読んで
+
+* katataku 
+  * PR: https://github.com/katataku/leetcode/pull/15
+  * 変数名は、sum よりも `prefixSum`, `cumSum`とすべきだった。
+    https://github.com/katataku/leetcode/pull/15/files#diff-302b3c57a99f55a6ede5338b83f17a5d903d52dbeddd3fe485ae5f5d1cdc4badR64-R68
+
+* goto-untrapped
+  * PR: https://github.com/goto-untrapped/Arai60/pull/28/
+  * mapのset時の短縮記法をJavascriptでもできることを知りました。
+
+* Harukawa2121
+  * PR: https://github.com/Hurukawa2121/leetcode/pull/16/
+
+* hproc
+  * PR: https://github.com/hroc135/leetcode/pull/16/
+  * https://github.com/hroc135/leetcode/pull/16/files#r1739569493
+  * 実行時間を見積もってみる
+    * `*0`の場合、
+      N = 2 * (10 ** 4)
+      実行時間の見積もり
+      = 2 * (10 `**` 4) * 2 * (10 `**` 4) / (10 `**` 7) (C++よりもJavascriptが100倍遅いとする, 1G / 100 = 10 `**` 7)
+      = 40 seconds
+      実際には、
+      = 1.569 seconds
+    * 上で生じた差の考察としては、もう少しjavascriptの処理できるステップ数が大きいということなのだろうか?
+      * まだ考察できる引き出しが少ない。
+
+* Yoshiki-Iwasa
+  * https://github.com/Yoshiki-Iwasa/Arai60/pull/15
+
+* hayashi-ay 
+  * PR: https://github.com/hayashi-ay/leetcode/pull/31/
+  * DPを用いた方法が理解できなかった。 https://github.com/hayashi-ay/leetcode/pull/31/files#diff-302b3c57a99f55a6ede5338b83f17a5d903d52dbeddd3fe485ae5f5d1cdc4badR49-R61
+
+## エラーだったコード
+
+* `*0` 演算子の優先順位
+
+* 誤り
+
+```javascript
+const cumSumToIndex = new Map()
+cumSumToIndex.set(0, 1)
+let cumSum = 0
+cumSumToIndex.set(cumSum, cumSumToIndex.get(0) || 0 + 1)
+```
+
+* 正解
+  * `+`の演算子 が `||`の演算子よりも先に処理される
+  * 参考: 演算子の優先順位 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_precedence
+
+```javascript
+const cumSumToIndex = new Map()
+cumSumToIndex.set(0, 1)
+let cumSum = 0
+cumSumToIndex.set(cumSum, (cumSumToIndex.get(0) || 0) + 1)
+```
+
 ## その他の解法
 
 * `*0` ブルートフォースの方法
@@ -159,3 +237,12 @@ const subarraySum = function(nums, k) {
     return count
 };
 ```
+
+## 調べたこと
+
+* cumulative sumをjavascriptでどのようにかけるか? 
+https://stackoverflow.com/questions/20477177/creating-an-array-of-cumulative-sum-in-javascript
+
+* JavaScriptにおける演算子の優先順位 
+  * || よりも +が早いことを知らなかった
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_precedence 
