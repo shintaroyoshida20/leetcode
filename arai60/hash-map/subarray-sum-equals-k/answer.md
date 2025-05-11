@@ -66,6 +66,11 @@ const subarraySum = function(nums, k) {
 
   * sumという変数名よりもprefixSum, cumSumの方が良い。
 
+  * 以下の記法でも良い。(https://github.com/goto-untrapped/Arai60/pull/28/files#r1641918143のレビューを見て)
+    JavaScriptでもPythonのDefaultDictのdefaultの値のようなことができる。
+
+(変更前)
+
 ```javascript
         if (!cumSumToCount.has(sum)) {
             cumSumToCount.set(sum, 0)
@@ -73,7 +78,7 @@ const subarraySum = function(nums, k) {
         cumSumToCount.set(sum, cumSumToCount.get(sum) + 1)
 ```
 
-  * 以下の記法でも良い。(https://github.com/goto-untrapped/Arai60/pull/28/files#r1641918143のレビューを見て)
+(変更後)
 
 ```javascript
         cumSumToCount.set(sum, (cumSumToCount.get(sum) || 0) + 1)
