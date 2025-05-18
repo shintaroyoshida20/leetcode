@@ -18,8 +18,8 @@ const topKFrequent = function(nums, k) {
         }
         count.set(num, count.get(num) + 1)
     }
-    const sorted_count = new Map([...count.entries()].sort((a, b)=> b[1] - a[1]))
-    const ans = sorted_count.keys().toArray().slice(0, k)
+    const sortedCount = new Map([...count.entries()].sort((a, b)=> b[1] - a[1]))
+    const ans = sortedCount.keys().toArray().slice(0, k)
     return ans
 };
 ```
@@ -27,4 +27,53 @@ const topKFrequent = function(nums, k) {
 * LeetCodeの解法を見て、HeapでK LogK
 
   * 時間計算量 : K logK
+
+## STEP 2
+
+* コメントを追加
+* countという変数名を、`numToCount`に変更。
+* ansを`topkFrequentNum`
+* map のdefault valueを|| operatorで実装する。
+
+```javascript
+const topKFrequent = function(nums, k) {
+    const numToCount = new Map()
+    for (const num of nums) {
+        const currentCount = numToCount.get(num) || 0
+        numToCount.set(num, currentCount + 1)
+    }
+    const countSortedNum = new Map([...numToCount.entries()].sort((a, b) => b[1] - a[1]))
+    const topkFrequentNum = countSortedNum.keys().toArray().slice(0, k)
+    return topkFrequentNum
+}
+```
+
+## STEP3
+
+```javascript
+const topKFrequent = function(nums, k) {
+    const numToCount = new Map()
+    for (const num of nums) {
+        const currentCount = numToCount.get(num) || 0
+        numToCount.set(num, currentCount + 1)
+    }
+    const countSortedNum = new Map([...numToCount.entries()].sort((a, b) => b[1] - a[1]))
+    const topkFrequentNum = countSortedNum.keys().toArray().slice(0, k)
+    return topkFrequentNum
+};
+```
+
+## 感想
+
+### コメント集を読んで
+
+## 他の人のPRを読んで
+
+## その他の方法
+
+### コードの良し悪し
+
+* `*0`
+
+* `*1`
 
