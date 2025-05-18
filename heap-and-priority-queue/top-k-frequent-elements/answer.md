@@ -3,7 +3,8 @@
 ## STEP 1
 
 * 配列をソートする方法
-  * HashTableでカウントをする。valueで降順でソートをして、keyをk個返す。
+  * HashTableで数字ごとの回数を数える。
+  * 回数でソートをして、トップKの数を数える。
   * mapをvalueでsortする箇所は分からなかったため、stackoverflowを参照した。
     https://stackoverflow.com/questions/37982476/how-to-sort-a-map-by-value-in-javascript
   * 時間計算量 : N LogN
@@ -70,6 +71,38 @@ const topKFrequent = function(nums, k) {
 ## 他の人のPRを読んで
 
 ## その他の方法
+
+* `*0` Heapを用いた方法
+  入力でユニークな数の個数をNとする。
+  * 時間計算量: N log N + k log N
+  * 空間計算量: N 
+
+```javascript
+const topKFrequent = function(nums, k) {
+    const frequencySortedNum = new PriorityQueue((a, b) => b.frequency - a.frequency)
+    const numToFrequency = new Map()
+    for (const num of nums) {
+        const count = numToFrequency.get(num) || 0
+        numToFrequency.set(num, count + 1)
+    }
+
+    const generator = numToFrequency.entries()
+    let next = generator.next()
+    while (!next.done) {
+        const [num, frequency] = next.value
+        frequencySortedNum.push({num, frequency})
+        next = generator.next()
+    }
+
+    const topKFrequent = []
+    while (k > 0) {
+        const pair = frequencySortedNum.pop()
+        topKFrequent.push(pair.num)
+        k--
+    }
+    return topKFrequent
+};
+```
 
 ### コードの良し悪し
 
