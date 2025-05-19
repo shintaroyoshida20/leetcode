@@ -25,10 +25,6 @@ const topKFrequent = function(nums, k) {
 };
 ```
 
-* LeetCodeの解法を見て、HeapでK LogK
-
-  * 時間計算量 : K logK
-
 ## STEP 2
 
 * コメントを追加
@@ -51,6 +47,8 @@ const topKFrequent = function(nums, k) {
 
 ## STEP3
 
+* 順序でソートを行う方法。
+
 ```javascript
 const topKFrequent = function(nums, k) {
     const numToCount = new Map()
@@ -64,6 +62,62 @@ const topKFrequent = function(nums, k) {
 };
 ```
 
+* quickSelectを用いる方法
+  * 1回目 6分
+  * 2回目 6分
+  * 3回目 5分
+```javascript
+
+const swap = function(i, j, array) {
+    const tmp = array[i]
+    array[i] = array[j]
+    array[j] = tmp
+}
+const partition = function(left, right, targetIdx, uniqueNums, numToCount) {
+    const targetCount = numToCount.get(uniqueNums[targetIdx])
+    swap(right, targetIdx, uniqueNums)
+
+    let correctTargetIdx = left
+    for (let i = left; i < right; i++){
+        const ithNumCount = numToCount.get(uniqueNums[i])
+        if (ithNumCount < targetCount)　{
+            swap(correctTargetIdx, i, uniqueNums)
+            correctTargetIdx++
+        }
+    }
+    swap(correctTargetIdx, right, uniqueNums)
+    return correctTargetIdx
+}
+
+const quickSelect = function(left, right, kthLargestIdx, uniqueNums, numToCount) {
+    if (right <= left) {
+        return
+    }
+
+    const randomIdx = Math.floor(Math.random() * (right - left + 1)) + left
+    const returnIdx = partition(left, right, randomIdx, uniqueNums, numToCount)
+    if (returnIdx === kthLargestIdx) {
+        return
+    }
+    if (returnIdx < kthLargestIdx) {
+        quickSelect(returnIdx + 1, right, kthLargestIdx, uniqueNums, numToCount)
+        return
+    }
+    quickSelect(left, returnIdx - 1, kthLargestIdx, uniqueNums, numToCount)
+}
+const topKFrequent = function(nums, k) {
+    const numToCount = new Map()
+    for (const num of nums) {
+        numToCount.set(num, (numToCount.get(num) || 0) + 1)
+    }
+
+    const uniqueNums = numToCount.keys().toArray()
+    const N = uniqueNums.length
+    quickSelect(0, N - 1, N - k, uniqueNums, numToCount)
+    return uniqueNums.slice(N - k)
+};
+```
+
 ## 感想
 
 ### コメント集を読んで
@@ -72,7 +126,7 @@ const topKFrequent = function(nums, k) {
 
 ## その他の方法
 
-* `*0` Heapを用いた方法
+* `*1` Heapを用いた方法
   入力でユニークな数の個数をNとする。
   * 時間計算量: N log N + k log N
   * 空間計算量: N 
@@ -104,9 +158,122 @@ const topKFrequent = function(nums, k) {
 };
 ```
 
+* `*2` QuickSelectアルゴリズムを用いた方法
+
+```javascript
+i
+const swap = function(i, j, array) {
+    const tmp = array[i]
+    array[i] = array[j]
+    array[j] = tmp
+}
+// uniqueNumsを回数順に昇順となるように、
+// targetIdxの数字を正しい場所に置き、正しい場所のインデックスを返却する。
+// また、targetIdxの数字より大きい値は、全て右側になるように配列を並び替える。
+const partition = function(left, right, targetIdx, uniqueNums, numToCount) {
+    const targetCount = numToCount.get(uniqueNums[targetIdx])
+    swap(right, targetIdx, uniqueNums)
+    let correctTargetIdx = left
+    for (let i = left; i < right; i++) {
+        const ithNumCount = numToCount.get(uniqueNums[i])
+        if (ithNumCount < targetCount) {
+            swap(i, correctTargetIdx, uniqueNums)
+            correctTargetIdx++
+        }
+    }
+    swap(correctTargetIdx, right, uniqueNums)
+    return correctTargetIdx
+}
+// k番目より大きい値が、右からK番目以内に来るように並び替えを行う関数。
+// ただし、順序は担保されない。
+const quickSelect = function(left, right, kthLargestIdx, uniqueNums, numToCount) {
+    if (right <= left) {
+        return
+    }
+    // left以上right以下のランダムな数を生成する。
+    const randomIdx = Math.floor(Math.random() * (right - left + 1)) + left
+    const returnIdx = partition(left, right, randomIdx, uniqueNums, numToCount)
+    if (returnIdx === kthLargestIdx) {
+        return
+    }
+    if (returnIdx < kthLargestIdx) {
+        quickSelect(returnIdx + 1, right, kthLargestIdx, uniqueNums, numToCount)
+        return
+    }
+    quickSelect(left, returnIdx - 1, kthLargestIdx, uniqueNums, numToCount)
+}
+const topKFrequent = function(nums, k) {
+    const numToCount = new Map()
+    for (const num of nums) {
+        const count = numToCount.get(num) || 0
+        numToCount.set(num, count + 1)
+    }
+
+    const uniqueNums = numToCount.keys().toArray()
+    const N = uniqueNums.length
+    quickSelect(0, N - 1, N - k, uniqueNums, numToCount)
+    return uniqueNums.slice(N - k)
+};
+```
+
 ### コードの良し悪し
 
 * `*0`
 
 * `*1`
 
+### 動かないコード
+
+```
+const swap = function(i, j, array) {
+    const tmp = array[i]
+    array[i] = array[j]
+    array[j] = tmp
+}
+const partition = function(left, right, targetIdx, uniqueNums, numToCount) {
+    const targetNumCount = numToCount.get(uniqueNums[targetIdx])
+    swap(targetIdx, right, uniqueNums)
+    let correctTargetIdx = 0
+    for (let i = left; i < right; i++) {
+        const ithNumCount = numToCount.get(uniqueNums[i])
+        if (ithNumCount < targetNumCount) {
+            swap(i, correctTargetIdx, uniqueNums)
+            correctTargetIdx++
+        }
+    }
+    swap(correctTargetIdx, right, uniqueNums)
+    return correctTargetIdx
+}
+const quickSelect = function(left, right, kthLargestIdx, uniqueNums, numToCount) {
+    if (right <= left) {
+        return
+    }
+    const randomIdx = Math.floor(Math.random() * (right - left + 1)) + left
+    const returnIdx = partition(left, right, randomIdx, uniqueNums, numToCount)
+    if (returnIdx === kthLargestIdx) {
+        return
+    }
+    if (returnIdx < kthLargestIdx) {
+        quickSelect(returnIdx + 1, right, kthLargestIdx, uniqueNums, numToCount)
+        return
+    }
+    quickSelect(left, returnIdx - 1, kthLargestIdx, uniqueNums, numToCount)
+}
+var topKFrequent = function(nums, k) {
+    const numToCount = new Map()
+    for (const num of nums) {
+        numToCount.set(num, (numToCount.get(num) || 0) + 1)
+    }
+
+    const uniqueNums = numToCount.keys().toArray()
+    const N = uniqueNums.length
+    quickSelect(0, N - 1, N - k, uniqueNums, numToCount)
+    return uniqueNums.slice(N - k)
+};
+```
+
+* バグの原因は、`let correctTargetIdx = 0`としている箇所で、
+  正しくは`let correctTargetIdx = left`。
+  partition関数のfor文は、計算量を少なくするため、
+  leftからrightを走査する。しかし、correctTargetIdx=0とすることで、
+  誤った箇所にtargetIdxが挿入されるため、バグが発生する。
