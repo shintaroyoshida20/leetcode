@@ -39,6 +39,7 @@ const topKFrequent = function(nums, k) {
         const currentCount = numToCount.get(num) || 0
         numToCount.set(num, currentCount + 1)
     }
+    // Mapが入力した順序を記憶することを利用する。
     const countSortedNum = new Map([...numToCount.entries()].sort((a, b) => b[1] - a[1]))
     const topkFrequentNum = countSortedNum.keys().toArray().slice(0, k)
     return topkFrequentNum
@@ -122,8 +123,44 @@ const topKFrequent = function(nums, k) {
 
 ### コメント集を読んで
 
+* QuickSelectとSortの以下の文章を理解できなかった。 
+  * 参照: https://discord.com/channels/1084280443945353267/1235829049511903273/1245555256360697949
+  * Sortは時間計算量がO(N)だが、QuickSelectの時間計算量はO(NlogN)のため、
+    N << Nlogで、Sortが優っていると理解したのですが、あっていますでしょうか? 
+  * 線形ソートは、O(N)だが、特定の条件でしか使用できないため、汎用的な関数はO(NlogN)のクイックソートやマージソートが使われていると理解していた。
+  * 安定していることのみがPyton Docsには記載されていた。 https://docs.python.org/ja/3.13/library/stdtypes.html#list.sort
+
+
+> Counter を使うと、さすがに Counter の内部実装を書いて欲しいといわれるものと思います。 
+> で、そこから Quick select に手を出すのもいいですが、Python で書いても Native 実行の 
+> sorted に速度でおそらく劣り、(log はなかなか定数倍に追いつかない)またコードも複雑なので
+> 選択しないです。
+
+
 ## 他の人のPRを読んで
 
+* Ryotaro25
+  * PR: https://github.com/Ryotaro25/leetcode_first60/pull/10/
+  * C++において、unordered_mapの方が、ordered_mapよりもおそい
+  * countよりもfrequencyの方がわかりやすいという意見がある。
+
+* Yoshiki-Iawasa
+  * PR: https://github.com/Yoshiki-Iwasa/Arai60/pull/8/files
+  * Pythonではheappushpopという関数があり、topよりも追加する値が小さかった場合のみ、
+    popを行っている。
+
+* olsen-blue 
+  * PR: https://github.com/olsen-blue/Arai60/pull/9/
+
+* hayashi-ay 
+  * PR: 
+    * https://github.com/hayashi-ay/leetcode/pull/60
+    * https://github.com/hayashi-ay/leetcode/pull/3
+  * Quick SelectのAverage時間計算量は、 O(N)
+    * N + N/2 + N/4 + ... = 2N に収束するから。
+
+* hroc135
+  * PR: https://github.com/hroc135/leetcode/pull/10/
 ## その他の方法
 
 * `*1` Heapを用いた方法
@@ -161,7 +198,6 @@ const topKFrequent = function(nums, k) {
 * `*2` QuickSelectアルゴリズムを用いた方法
 
 ```javascript
-i
 const swap = function(i, j, array) {
     const tmp = array[i]
     array[i] = array[j]
@@ -216,14 +252,85 @@ const topKFrequent = function(nums, k) {
 };
 ```
 
+* `*3` QuickSelectを再帰を用いずに、Stackで解く方法 
+
+```javascript
+const swap = function(i, j, array) {
+    const tmp = array[i]
+    array[i] = array[j]
+    array[j] = tmp
+}
+const partition = function(left, right, uniqueNums, numToCount) {
+    const targetIdx = Math.floor(Math.random() * (right - left + 1)) + left
+    const targetCount = numToCount.get(uniqueNums[targetIdx])
+    swap(right, targetIdx, uniqueNums)
+
+    let correctTargetIdx = left
+    for (let i = left; i < right; i++){
+        const ithNumCount = numToCount.get(uniqueNums[i])
+        if (ithNumCount < targetCount)　{
+            swap(correctTargetIdx, i, uniqueNums)
+            correctTargetIdx++
+        }
+    }
+    swap(correctTargetIdx, right, uniqueNums)
+    return correctTargetIdx
+}
+
+const quickSelect = function(left, right, kthLargestIdx, uniqueNums, numToCount) {
+    const container = []
+    container.push([left, right])
+    while (container.length > 0) {
+        [left, right] = container.pop()
+        if (right <= left) {
+            continue
+        }
+        const returnedIdx = partition(left, right, uniqueNums, numToCount)
+        if (returnedIdx === kthLargestIdx) {
+            return
+        }
+        if (returnedIdx < kthLargestIdx) {
+            container.push([returnedIdx + 1, right])
+            continue
+        }
+        container.push([left, returnedIdx - 1])
+    }
+}
+const topKFrequent = function(nums, k) {
+    const numToCount = new Map()
+    for (const num of nums) {
+        numToCount.set(num, (numToCount.get(num) || 0) + 1)
+    }
+
+    const uniqueNums = numToCount.keys().toArray()
+    const N = uniqueNums.length
+    quickSelect(0, N - 1, N - k, uniqueNums, numToCount)
+    return uniqueNums.slice(N - k)
+};
+```
+
 ### コードの良し悪し
 
-* `*0`
+numsの配列数をM, ユニークな数をNとする。
+空間計算量を減らせるという観点で、PriorityQueueが最も優れている。
 
-* `*1`
+* `*4` Sort
+  * 時間計算量 : M + N log N
+  * 空間計算量 : N
+
+* `*5` PriorityQueue
+  * 時間計算量 : M + N log N + k log N 
+    ( Push時に、ストリームの時と同様にk個以上を保持しないようにすることで、k log k にすることが可能)
+  * 空間計算量 : N
+    ( Push時に、ストリームの時と同様にk個以上を保持しないようにすることで、Kにすることが可能)
+
+* `*6`
+  * 時間計算量 : M + N log N
+  * 空間計算量 : N 
 
 ### 動かないコード
 
+* `*7`
 ```
 const swap = function(i, j, array) {
     const tmp = array[i]
