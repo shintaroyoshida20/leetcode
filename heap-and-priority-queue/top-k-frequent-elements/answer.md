@@ -125,6 +125,19 @@ const topKFrequent = function(nums, k) {
 
 * sortでは、keyにlambda関数を用いたり、getを使う方法がある。
 
+* QuickSelectとSortの以下の文章を理解できなかった。
+  * 参照: https://discord.com/channels/1084280443945353267/1235829049511903273/1245555256360697949
+  * Sortは時間計算量がO(N)だが、QuickSelectの時間計算量はO(NlogN)のため、
+    N << Nlogで、Sortが優っていると理解したのですが、あっていますでしょうか?
+  * 線形ソートは、O(N)だが、特定の条件でしか使用できないため、汎用的な関数はO(NlogN)のクイックソートやマージソートが使われていると理解していた。
+  * 安定していることのみがPyton Docsには記載されていた。 https://docs.python.org/ja/3.13/library/stdtypes.html#list.sort
+
+
+> Counter を使うと、さすがに Counter の内部実装を書いて欲しいといわれるものと思います。
+> で、そこから Quick select に手を出すのもいいですが、Python で書いても Native 実行の
+> sorted に速度でおそらく劣り、(log はなかなか定数倍に追いつかない)またコードも複雑なので
+> 選択しないです。
+
 ## 他の人のPRを読んで
 
 * Ryotaro25
