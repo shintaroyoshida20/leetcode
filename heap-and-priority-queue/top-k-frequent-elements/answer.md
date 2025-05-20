@@ -123,19 +123,7 @@ const topKFrequent = function(nums, k) {
 
 ### コメント集を読んで
 
-* QuickSelectとSortの以下の文章を理解できなかった。 
-  * 参照: https://discord.com/channels/1084280443945353267/1235829049511903273/1245555256360697949
-  * Sortは時間計算量がO(N)だが、QuickSelectの時間計算量はO(NlogN)のため、
-    N << Nlogで、Sortが優っていると理解したのですが、あっていますでしょうか? 
-  * 線形ソートは、O(N)だが、特定の条件でしか使用できないため、汎用的な関数はO(NlogN)のクイックソートやマージソートが使われていると理解していた。
-  * 安定していることのみがPyton Docsには記載されていた。 https://docs.python.org/ja/3.13/library/stdtypes.html#list.sort
-
-
-> Counter を使うと、さすがに Counter の内部実装を書いて欲しいといわれるものと思います。 
-> で、そこから Quick select に手を出すのもいいですが、Python で書いても Native 実行の 
-> sorted に速度でおそらく劣り、(log はなかなか定数倍に追いつかない)またコードも複雑なので
-> 選択しないです。
-
+* sortでは、keyにlambda関数を用いたり、getを使う方法がある。
 
 ## 他の人のPRを読んで
 
@@ -311,11 +299,14 @@ const topKFrequent = function(nums, k) {
 
 ### コードの良し悪し
 
+
 numsの配列数をM, ユニークな数をNとする。
-空間計算量を減らせるという観点で、PriorityQueueが最も優れている。
+空間計算量を減らせるという観点で、PriorityQueueが優れており、
+時間計算量を減らせるという観点だと、Sortアルゴリズムが優れている。
 
 * `*4` Sort
-  * 時間計算量 : M + N log N
+  * クイックソートだとO(N)
+  * 時間計算量 : M + N
   * 空間計算量 : N
 
 * `*5` PriorityQueue
@@ -325,7 +316,7 @@ numsの配列数をM, ユニークな数をNとする。
     ( Push時に、ストリームの時と同様にk個以上を保持しないようにすることで、Kにすることが可能)
 
 * `*6`
-  * 時間計算量 : M + N log N
+  * 時間計算量 : M + N 
   * 空間計算量 : N 
 
 ### 動かないコード
