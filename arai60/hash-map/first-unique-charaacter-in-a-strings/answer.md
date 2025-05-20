@@ -152,12 +152,67 @@ const firstUniqChar = function(s) {
 };
 ```
 
+* `*04` JavaScriptのMapが順序を保持することを利用した方法
+
+```javascript
+const firstUniqChar = function(s) {
+    const duplicated = new Set()
+    const uniqueCharToIdx = new Map()
+    for (let i = 0; i < s.length; i++) {
+        if (duplicated.has(s[i])) {
+            continue
+        }
+        if (uniqueCharToIdx.has(s[i])) {
+            uniqueCharToIdx.delete(s[i])
+            duplicated.add(s[i])
+            continue
+        }
+        uniqueCharToIdx.set(s[i], i)
+    }
+    if (uniqueCharToIdx.size === 0) {
+        return -1
+    }
+    const iterator = uniqueCharToIdx.values()
+    return iterator.next().value
+};
+```
+
 ### コードの良し悪し
 
-* `*0`
+* `*11`
 
-* `*1`
+* `*12`
+
+* `*13`
+
+* `*14`
 
 ## 調べたこと
 
+* str.encode関数は、UTF-8にエンコードされる.
+  https://docs.python.org/3/library/stdtypes.html#str.encode
 
+* String.prototype.charCodeAt() https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
+
+> charCodeAt() always indexes the string as a sequence of UTF-16 code units,
+> so it may return lone surrogates. To get the full Unicode code point
+> at the given index, use String.prototype.codePointAt().
+
+```javascript
+const c = "𩸽";
+
+console.log(c.length); // 2 (2つのコードユニットで構成)
+console.log(c.charCodeAt(0)); // 55399 (高位サロゲート)
+console.log(c.charCodeAt(1)); // 56893 (低位サロゲート)
+console.log(c.codePointAt(0)) // 171581 (UniCodeコードポイント)
+
+const codePoint = c.codePointAt(0)
+// codePoint = (highSurrogate - 0xD800) * 0x400 + (lowSurrogate - 0xDC00) + 0x10000
+highSurrogate = Math.floor((codePoint - 0x10000) / 0x400) + 0xD800 // 55399
+lowSurrogate = ((codePoint - 0x10000) % 0x400) + 0xDC00 // 56893
+console.log(highSurrogate === c.charCodeAt(0)) // true
+console.log(lowSurrogate === c.charCodeAt(1)) // true
+```
+
+* ord() は、Unicode CodePointが返却される。
+https://docs.python.org/3/library/functions.html#ord
