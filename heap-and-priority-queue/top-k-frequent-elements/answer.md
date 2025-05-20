@@ -322,7 +322,7 @@ numsの配列数をM, ユニークな数をNとする。
 ### 動かないコード
 
 * `*7`
-```
+```javascript
 const swap = function(i, j, array) {
     const tmp = array[i]
     array[i] = array[j]
