@@ -273,6 +273,7 @@ console.log(lowSurrogate === c.charCodeAt(1)) // true
 https://docs.python.org/3/library/functions.html#ord
 
 * PythonのOrderedDictは、双方向連結リストとHash Tableでできている。 
+  https://github.com/python/cpython/blob/a66bae8bb52721ea597ade6222f83876f9e939ba/Lib/collections/__init__.py#L89 
 
 * C++のmapは、keyでソートされている。
   https://cplusplus.com/reference/map/map/
