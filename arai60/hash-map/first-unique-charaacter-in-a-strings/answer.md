@@ -78,6 +78,8 @@ const firstUniqChar = function(s) {
   * Mapではなく、配列で出現回数を保持する方法がある。
   * 参照: https://discord.com/channels/1084280443945353267/1233603535862628432/1237973103670198292
 
+* UTF-8, UTF-16
+https://github.com/ichika0615/arai60/blob/96c3a36d478787dbe6fe0c03a45bc1e392be386d/arai60_15.md#%E4%BB%A5%E4%B8%8B%E5%8B%89%E5%BC%B7
 
 ## その他の方法
 
@@ -216,3 +218,8 @@ console.log(lowSurrogate === c.charCodeAt(1)) // true
 
 * ord() は、Unicode CodePointが返却される。
 https://docs.python.org/3/library/functions.html#ord
+
+* PythonのOrderedDictは、双方向連結リストとHash Tableでできている。 
+
+* C++のmapは、keyでソートされている。
+  https://cplusplus.com/reference/map/map/
