@@ -50,6 +50,8 @@ const firstUniqChar = function(s) {
 
 ## STEP3
 
+* 1分、1分、1分
+
 ```javascript
 const firstUniqChar = function(s) {
     const charToCount = new Map()
@@ -68,7 +70,9 @@ const firstUniqChar = function(s) {
 
 ## 感想
 
-* 
+* For文が2周していた際に、1周でできないかと考えるのは、習慣化できそう。
+
+* LinkedHashMap というデータ構造については、次に解くLRUの問題を解いた際に学習する。
 
 ### コメント集を読んで
 
@@ -80,6 +84,43 @@ const firstUniqChar = function(s) {
 
 * UTF-8, UTF-16
 https://github.com/ichika0615/arai60/blob/96c3a36d478787dbe6fe0c03a45bc1e392be386d/arai60_15.md#%E4%BB%A5%E4%B8%8B%E5%8B%89%E5%BC%B7
+
+* Ryotaro25
+  * PR: https://github.com/Ryotaro25/leetcode_first60/pull/16/
+  * 387.FirstUniqueCharacterinaString/step4.cpp の参照を実装している箇所が読めない。
+    --> ポインターや参照の箇所が理解できていない。次の問題までに勉強する。
+
+* Yoshiki-Iwasa
+  * PR: https://github.com/Yoshiki-Iwasa/Arai60/pull/14
+  * 思考プロセスが記述されていて、すごくレビューがしやすくなると思うので、自分も真似をする。
+  * rustは文法が理解できていないので、公式ドキュメントを見ながら文法を検索できるようにする。
+
+* olsen-blue 
+  * PR: https://github.com/olsen-blue/Arai60/pull/15/
+  * return -1とする際には、関数の呼び出し側でコメントを書くことがある。 
+    https://github.com/olsen-blue/Arai60/pull/15/files#r1913610172
+  * 多言語で予約後となっているものは、変数名として避けた方が良い。 
+    https://github.com/olsen-blue/Arai60/pull/15/files#r1941265089 
+
+* hayashi-ay
+  * PR: https://github.com/hayashi-ay/leetcode/pull/28/
+  * 個人的に、PythonやJavascriptのMapのkeyの入力順が保存されることを使用した
+    方法が読みやすくて好み。
+    https://github.com/hayashi-ay/leetcode/pull/28/files#diff-5ec7c3c87171edf4d61e9eb79fd926cafa27caf068da7474222897c8e9e7ab96R91-R107
+
+* hroc135
+  * PR: https://github.com/hroc135/leetcode/pull/15/
+  * 「どの情報から順番に出してあげることで、より早く伝わるかを考える。 」をすぐに取り入れたい。
+    https://github.com/hroc135/leetcode/pull/15/files#r1731514545
+  * メモリにおけるキャッシュ効率について理解ができていないので、勉強する。
+
+* kazukiii
+  * PR: https://github.com/kazukiii/leetcode/pull/16/files
+  * nodchipさんのコメント
+    * 以下を理解できていないので、勉強する。
+    > x64 アーキテクチャーを仮定するのであれば、値が 64 ビット (8 バイト) 以内に収まる場合は、
+    > 参照にしないほうが良いと思います。理由は、値が 64 ビット (8 バイト) 以内に収まる場合、
+    > 汎用レジスター 1 本に格納できるためです。
 
 ## その他の方法
 
@@ -181,13 +222,25 @@ const firstUniqChar = function(s) {
 
 ### コードの良し悪し
 
-* `*11`
+* `*10` 出現回数を数えて、1回だけ出現するものを見つけた際に、そのインデックスを返す方法
+  * 空間計算量 : O(1)
+  * 時間計算量 : O(N) for文が2周している。
 
-* `*12`
+* `*11` Brute Forceアプローチ
+  * 空間計算量 : O(1)
+  * 時間計算量 : O(N^2)
 
-* `*13`
+* `*12` キューを用いた方法
+  * 空間計算量 : O(N) キューを用いている。
+  * 時間計算量 : O(N) for文が1周している。
 
-* `*14`
+* `*13` 配列を用いた方法
+  * 空間計算量 : O(1)
+  * 時間計算量 : O(N) for文が2周している。
+
+* `*14` JavaScriptのMapが順序を保持することを利用した方法
+  * 空間計算量 : O(N) duplicatedのSetで、O(N)の空間計算量が必要。
+  * 時間計算量 : O(N) for文が1周している。
 
 ## 調べたこと
 
@@ -223,3 +276,14 @@ https://docs.python.org/3/library/functions.html#ord
 
 * C++のmapは、keyでソートされている。
   https://cplusplus.com/reference/map/map/
+
+* Pythonのcollections.Counterの内部実装 
+  * https://github.com/python/cpython/blob/a66bae8bb52721ea597ade6222f83876f9e939ba/Lib/collections/__init__.py#L551
+  * Pure Pythonで書かれている。
+
+* Goにおけるmapの内部実装 
+  https://github.com/golang/go/blob/eb4069127a7dbdaed480aed80ba6ed1b2ea27901/src/internal/runtime/maps/map.go
+
+* ハッシュ表の理解 (kumagiさんのスライド)
+  * OpenAddressing, ClosedAddressingのところまで読んだ。
+  https://www.docswell.com/s/kumagi/ZGXXRJ-hash-table-world-which-you-dont-know
