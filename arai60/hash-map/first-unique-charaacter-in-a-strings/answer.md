@@ -105,7 +105,7 @@ https://github.com/ichika0615/arai60/blob/96c3a36d478787dbe6fe0c03a45bc1e392be38
 * hayashi-ay
   * PR: https://github.com/hayashi-ay/leetcode/pull/28/
   * 個人的に、PythonやJavascriptのMapのkeyの入力順が保存されることを使用した
-    方法が読みやすくて好み。
+    方法(`*04`)が読みやすくて好み。
     https://github.com/hayashi-ay/leetcode/pull/28/files#diff-5ec7c3c87171edf4d61e9eb79fd926cafa27caf068da7474222897c8e9e7ab96R91-R107
 
 * hroc135
