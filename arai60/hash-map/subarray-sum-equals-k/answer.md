@@ -243,6 +243,30 @@ const subarraySum = function(nums, k) {
 };
 ```
 
+* `*2` 山に駅があり、標高差がKである駅を求めるというイメージで解いた方法
+
+```javascript
+//　山に駅があり、標高差がある。
+// それぞれの駅は前の駅との標高差が書いてある。
+// 駅と駅の間の標高差が、K mの組み合わせの個数を求める。
+const subarraySum = function(nums, k) {
+    const heightToCount = new Map()
+    heightToCount.set(0, 1)
+    let count = 0
+    let currentHeight = 0
+    for (const num of nums) {
+        currentHeight += num
+        const targetStationCount = heightToCount.get(currentHeight - k)
+        if (targetStationCount !== undefined) {
+            count += targetStationCount
+        }
+        const previousCount = heightToCount.get(currentHeight) || 0
+        heightToCount.set(currentHeight, previousCount + 1)
+    }
+    return count
+};
+```
+
 ## 調べたこと
 
 * cumulative sumをjavascriptでどのようにかけるか? 
@@ -251,3 +275,5 @@ https://stackoverflow.com/questions/20477177/creating-an-array-of-cumulative-sum
 * JavaScriptにおける演算子の優先順位 
   * || よりも +が早いことを知らなかった
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_precedence 
+
+
