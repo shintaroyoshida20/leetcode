@@ -80,7 +80,6 @@ const numUniqueEmails = function(emails) {
     return unique_email.size
 };
 ```
-```
 
 * 正規表現を使う方法
 
@@ -159,7 +158,8 @@ const numUniqueEmails = function(emails) {
     参考 : https://github.com/hayashi-ay/leetcode/pull/25/files#diff-d65d43698547a0f3cfcdb7f005de30ed4cd0c45ae015fd01094d6647cfa0a84aR177
 
 ```javascript
-local_without_dots = "".join(filter(lambda c: c != ".", local_ignore_alias))```
+local_without_dots = "".join(filter(lambda c: c != ".", local_ignore_alias))
+```
 
 ## その他の方法
 
