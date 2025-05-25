@@ -317,3 +317,7 @@ const numUniqueEmails = function(emails) {
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
   * slice
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice
+
+* stringのconcatination方法について
+ * backticksを用いたstringのことをTemplate literalを呼ぶ.
+   https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Strings#including_expressions_in_strings
