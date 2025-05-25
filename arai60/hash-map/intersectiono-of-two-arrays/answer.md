@@ -369,3 +369,65 @@ const intersection = function(nums1, nums2) {
 };
 ```
 
+### レビュー (3) 簡潔な表現
+
+* 変更前 
+
+```javascript
+const intersection = function(nums1, nums2) {
+    const is_num_appeared = new Map()
+    for (const num1 of nums1) {
+        is_num_appeared.set(num1, true)
+    }
+    const ans = []
+    for (const num2 of nums2) {
+        if (!is_num_appeared.has(num2) || is_num_appeared.get(num2) === false) {
+            continue
+        }
+        ans.push(num2)
+        is_num_appeared.set(num2, false)
+    }
+    return ans
+}
+```
+
+* コメント内容 
+  * mapのvalueでの制御ではなく、keyの有無での制御がある。
+  * Comment: https://github.com/shintaroyoshida20/leetcode/pull/19#discussion_r2105787599
+
+* 変更後
+
+```javascript
+const intersection = function(nums1, nums2) {
+    const isNumAppeared = new Map()
+    for (const num of nums1) {
+        isNumAppeared.set(num, true)
+    }
+    const result = []
+    for (const num of nums2) {
+        if (!isNumAppeared.has(num)) { // UPDATED.
+            continue
+        }
+        result.push(num)
+        isNumAppeared.delete(num) // UPDATED.
+    }
+    return result
+};
+// mapのvalueが意味をなしていないので、Setに修正.
+const intersectionWithSet = function(nums1, nums2) {
+    const isNumAppeared = new Set()
+    for (const num of nums1) {
+        isNumAppeared.add(num)
+    }
+
+    const result = []
+    for (const num of nums2) {
+        if (isNumAppeared.has(num)) {
+            result.push(num)
+            isNumAppeared.delete(num)
+        }
+    }
+    return result
+};
+```
+```
