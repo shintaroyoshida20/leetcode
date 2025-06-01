@@ -1,4 +1,6 @@
-# Title
+# 35. Search Insert Position
+
+* https://leetcode.com/problems/search-insert-position/
 
 ## STEP1
 
@@ -21,7 +23,9 @@
 const searchInsert = function(nums, target) {
     let left = 0
     let right = nums.length - 1
-    // find the smallest index which is equal and larger than target value.
+    // ターゲット : find the smallest index of the value which is equal and larger than target value.
+    // 引き継ぎ条件 : left <= target <= right + 1、1つ以上存在
+    // 
     while (left <= right) {
         const middle = Math.floor((left + right) / 2)
         if (target <= nums[middle]) {
@@ -46,12 +50,38 @@ const searchInsert = function(nums, target) {
 
 ## 感想
 
+* [a,b] は、 a <= x <= bを表す。
+* (a,b) は、a < x < bを表す。
+
 ### コメント集を読んで
 
 ## 他の人のPRを読んで
 
 ## その他の方法
 
+* (`*1`) 
+
+```javascript
+const searchInsert = function(nums, target) {
+    if (nums[nums.length - 1] < target) {
+        return nums.length
+    }
+    let  left = 0
+    let right = nums.length - 1
+    // target : find the index of the smallest value which is equal and larger than target value.
+    // loop condition : left <= target <= right
+    // break condition : left == right
+    while (left < right) {
+        const middle = Math.floor((left + right) / 2)
+        if (nums[middle] < target) {
+            left = middle + 1
+            continue
+        }
+        right = middle
+    }
+    return right
+};
+```
 ### コードの良し悪し
 
 * `*0`
