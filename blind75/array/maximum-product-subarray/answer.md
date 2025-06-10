@@ -26,7 +26,8 @@ const maxProduct = function(nums) {
 - LeetCodeの解法を見た。
 - 最大に加えて、最小を残すという方法が思いつかなかった。
 
-```
+- 動かなかった時のコード
+```javascript
 const maxProduct = function(nums) {
     let minSoFar = nums[0]
     let maxSoFar = nums[0]
@@ -39,6 +40,23 @@ const maxProduct = function(nums) {
         
         minSoFar = Math.min(num, Math.min(minSoFar * num, maxSoFar * num))
         maxSoFar = Math.max(num, Math.max(minSoFar * num, maxSoFar * num))
+    }
+    return maxProduct
+}
+```
+- 正しい時のコード
+```javascript
+const maxProduct = function(nums) {
+    let minSoFar = nums[0]
+    let maxSoFar = nums[0]
+    let maxProduct = nums[0]
+    for (let i = 1; i < nums.length; i++) {
+        const num = nums[i]
+        const tempMaxSoFar = Math.max(num, Math.max(minSoFar * num, maxSoFar * num))
+        maxProduct = Math.max(maxProduct, tempMaxSoFar)
+        
+        minSoFar = Math.min(num, Math.min(minSoFar * num, maxSoFar * num))
+        maxSoFar = tempMaxSoFar
     }
     return maxProduct
 }
