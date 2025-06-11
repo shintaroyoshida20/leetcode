@@ -81,6 +81,74 @@ const threeSum = function(nums) {
 };
 ```
 
+- 間違えた時のコード
+
+```javascript
+const threeSum = function(nums) {
+    nums.sort((a, b) => a - b)
+    const result = []
+    for (let i = 0; i < nums.length; i++) {
+        if (0 < nums[i]) {
+            break
+        }
+        if (0 < i && nums[i] === nums[i-1]) {
+            continue
+        }
+        const seenNum = new Set()
+        let j = i + 1
+        while (j < nums.length) {
+            const complement = - nums[i] - nums[j]
+            if (seenNum.has(complement)) {
+                result.push([nums[i], nums[j], complement])
+            }
+            if (nums[i] === 0 && nums[j] === 0 && nums[j + 1] === 0) {
+                result.push([0, 0, 0])
+                j++
+            }
+            seenNum.add(nums[j])
+            while (j < nums.length - 1 && nums[j] === nums[j + 1]) {
+                j++
+            }
+            j++
+            
+        }
+    }
+    return result
+};
+```
+
+- 正しくは、
+jを1つずつ増やす際に、ペアが見つかった時のみスキップするようにしないと、[-2, 1, 1]というケースを見逃してしまう。
+
+
+```javascript
+const threeSum = function(nums) {
+    nums.sort((a, b) => a - b)
+    const result = []
+    for (let i = 0; i < nums.length; i++) {
+        if (0 < nums[i]) {
+            break
+        }
+        if (0 < i && nums[i] === nums[i-1]) {
+            continue
+        }
+        const seenNum = new Set()
+        let j = i + 1
+        while (j < nums.length) {
+            const complement = - nums[i] - nums[j]
+            if (seenNum.has(complement)) {
+                result.push([nums[i], nums[j], complement])
+                while (j < nums.length - 1 && nums[j] === nums[j + 1]) {
+                    j++
+                }
+            }
+            seenNum.add(nums[j]) 
+            j++
+        }
+    }
+    return result
+};
+```
 ## STEP2
 
 ```javascript
@@ -98,6 +166,11 @@ const threeSum = function(nums) {
 ## 他の人のPRを読んで
 
 ## その他の方法
+
+- `*2` 
+
+```javascript
+```
 
 ### コードの良し悪し
 
