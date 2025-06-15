@@ -65,6 +65,17 @@ const hammingWeight = function(n) {
 };
 ```
 
+```javascript
+const hammingWeight = function(n) {
+    let count = 0
+    while (n !== 0) {
+        count++
+        n &= n - 1
+    }
+    return count++
+};
+```
+
 ## STEP2
 
 ```javascript
