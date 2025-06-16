@@ -49,7 +49,40 @@ const missingNumber = function(nums) {
 };
 ```
 
+- HashTableを使用する方法
+
 ```javascript
+const missingNumber = function(nums) {
+    const seenNum = new Map()
+    for (let i = 0; i < nums.length + 1; i++) {
+        seenNum.set(i, false)
+    }
+    for (let i = 0; i < nums.length; i++) {
+        seenNum.set(nums[i], true)
+    }
+    for (let i = 0; i < nums.length + 1; i++) {
+        if (seenNum.get(i) === false) {
+            return i
+        }
+    }
+    throw new Error("This error never be called")
+};
+```
+
+- xorを用いた方法
+  - まったく発想ができず、LeetCodeの答えを見て、理解を行った。
+
+```javascript
+const missingNumber = function(nums) {
+    let xorResult = 0
+    for (let i = 0; i < nums.length + 1; i++) {
+        xorResult ^= i
+    }
+    for (const num of nums) {
+        xorResult ^= num
+    }
+    return xorResult
+};
 ```
 
 ## STEP2
