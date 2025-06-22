@@ -2,15 +2,13 @@
 
 ## STEP1
 
-### 発想
-
 ### 想定されるユースケース
 
 ### 何が分からなかったか?
 
 - 今回は特になし
 
-### 手作業でやってみる
+### 発想 (手作業でやってみる)
 
 * 数字の紙を持った人が一列に並んでいる。 
 * 先頭から以下の作業を行う。
@@ -160,8 +158,7 @@ numsの配列の長さをNとする。
 * `*2`
   * 時間計算量: O(N log N)
   * 空間計算量: O(1)
-    * Javasciprtにおいては、sort関数はin-placeで行われるため。
-    * Pythonにおいては、
+    * Javasciprtにおいては、sort関数はin-placeで行われるため、O(1)の空間計算量で、sortをできる。
 
 ## 調べたこと
 
@@ -175,6 +172,7 @@ numsの配列の長さをNとする。
 
 JavaではSort Algorithmに、Quicksortよりも早いDual Pivot Quick Sortが用いられている。
 
-- Javascript実装
+- Javascriptにおけるsortの実装
+  - arrayの中身の種類によってソートアルゴリズムが異なるらしい。
   - https://stackoverflow.com/questions/234683/javascript-array-sort-implementation
 
