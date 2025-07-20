@@ -4,13 +4,15 @@
 
 ### 発想
 
+* 自分の前までの積と自分の後ろ以降の積を掛け合わせる。
+
 ### 想定されるユースケース
 
 ### 何が分からなかったか?
 
-### 発想 
+* 空間計算量をO(1)で行う方法が、思いつかなかった。
 
-* 自分の前までの積と自分の後ろ以降の積を掛け合わせる。
+### コード
 
 ```javascript
 const productExceptSelf = function(nums) {
@@ -76,6 +78,8 @@ const productExceptSelf = function(nums) {
 
 ## STEP3
 
+* `*1` 累積積を用いた方法
+
 ```javascript
 const productExceptSelf = function(nums) {
     if (nums.length === 1) {
@@ -115,9 +119,16 @@ const productExceptSelf = function(nums) {
 
 ## 他の人のPRを読んで
 
+- https://github.com/Ryotaro25/leetcode_first60/pull/67
+- https://github.com/rihib/leetcode/pull/21
+- https://github.com/Exzrgs/LeetCode/pull/31
+- https://github.com/t-ooka/leetcode/pull/5
+- https://hayapenguin.com/notes/LeetCode/238/ProductOfArrayExceptSelf
+
+
 ## その他の方法
 
-* `*1` 番兵を使う方法 
+* `*2` 累積積で番兵を用いた方法
 
 ```javascript
 const productExceptSelf = function(nums) {
@@ -145,19 +156,44 @@ const productExceptSelf = function(nums) {
 };
 ```
 
+* `*3` 空間計算量をO(1)で行う方法
+
+```javascript
+const productExceptSelf = function(nums) {
+    if (nums.length <= 1) {
+        throw new Error("array lengths is invalid. nums size should be larger than 1.")
+    }
+    const result = new Array(nums.length).fill(1)
+    
+    let currentProduct = 1
+    for (let i = 1; i < nums.length; i++) {
+        currentProduct *= nums[i - 1]
+        result[i] = currentProduct
+    }
+    let currentProductReversed = 1
+    for (let i = nums.length - 2; 0 <= i; i--) {
+        currentProductReversed *= nums[i + 1]
+        result[i] *= currentProductReversed
+    }
+    return result
+};
+```
+
 ### コードの良し悪し
 
-* `*0`
-  * 時間計算量:
-  * 空間計算量:
+numsの配列の長さをNとする。
 
 * `*1`
-  * 時間計算量:
-  * 空間計算量:
+  * 時間計算量: O(N)
+  * 空間計算量: O(N)
 
 * `*2`
-  * 時間計算量:
-  * 空間計算量:
+  * 時間計算量: O(N)
+  * 空間計算量: O(N)
+
+* `*3`
+  * 時間計算量: O(N)
+  * 空間計算量: O(1)
 
 ## 調べたこと
 
