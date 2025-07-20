@@ -77,6 +77,36 @@ const productExceptSelf = function(nums) {
 ## STEP3
 
 ```javascript
+const productExceptSelf = function(nums) {
+    if (nums.length === 1) {
+        throw new Error("invalid nums length. length should be larger than 1.")
+    }
+    if (nums.length === 2) {
+        return [nums[1], nums[0]]
+    }
+    const prefixProduct = new Array(nums.length)
+    const prefixProductReversed = new Array(nums.length)
+
+    let currentProduct = 1
+    for (let i = 0; i < nums.length; i++) {
+        currentProduct *= nums[i]
+        prefixProduct[i] = currentProduct
+    }
+    let currentProductReversed = 1
+    for (let i = nums.length - 1; 0 <= i; i--) {
+        currentProductReversed *= nums[i]
+        prefixProductReversed[i] = currentProductReversed
+    }
+
+    const result = []
+    result.push(prefixProductReversed[1])
+    for (let i = 1; i < nums.length - 1; i++) {
+        const productExceptSelf = prefixProduct[i - 1] * prefixProductReversed[i + 1]
+        result.push(productExceptSelf)
+    }
+    result.push(prefixProduct[nums.length - 2])
+    return result
+};
 ```
 
 ## 感想
