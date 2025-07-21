@@ -4,7 +4,16 @@
 
 ### 発想
 
-* 自分の前までの積と自分の後ろ以降の積を掛け合わせる。
+* 全ての要素に対して、自分以外の積を求める。
+時間計算量O(N^2)
+空間計算量はO(N)
+
+* 最初に全ての要素の積を求めて、各要素に対して割り算を行う。
+問題の条件で割り算をしてはいけないという記載があるため、不可。
+また、要素には0が含まれてうるため、解法としても不可。
+
+* 配列の各要素に対して、
+その要素の直前までの積とその要素の後ろ以降の積を掛け合わせる。
 
 ### 想定されるユースケース
 
@@ -179,6 +188,25 @@ const productExceptSelf = function(nums) {
 };
 ```
 
+- `*4` ナイーブに求める自分以外の席をFor文で計算する方法
+
+```javascript
+const productExceptSelf = function(nums) {
+    const result = []
+    for (let i = 0; i < nums.length; i++) {
+        let product = 1
+        for (let j = 0; j < nums.length; j++) {
+            if (i === j) {
+                continue
+            }
+            product *= nums[j]
+        }
+        result.push(product)
+    }
+    return result
+};
+```
+
 ### コードの良し悪し
 
 numsの配列の長さをNとする。
@@ -193,6 +221,10 @@ numsの配列の長さをNとする。
 
 * `*3`
   * 時間計算量: O(N)
+  * 空間計算量: O(1)
+
+* `*4`
+  * 時間計算量: O(N^2)
   * 空間計算量: O(1)
 
 ## 調べたこと
