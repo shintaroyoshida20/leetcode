@@ -189,6 +189,7 @@ const productExceptSelf = function(nums) {
 ```
 
 - `*4` ナイーブに求める自分以外の席をFor文で計算する方法
+  - Time Limmit Exceeded エラーが発生する。
 
 ```javascript
 const productExceptSelf = function(nums) {
