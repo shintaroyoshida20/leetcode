@@ -51,6 +51,24 @@ const insert = function(intervals, newInterval) {
 ## STEP2
 
 ```javascript
+const insert = function(intervals, newInterval) {
+    const result = []
+        idx++
+    }
+
+    while (idx < intervals.length && intervals[idx][0] <= newInterval[1]) {
+        newInterval[0] = Math.min(newInterval[0], intervals[idx][0])
+        newInterval[1] = Math.max(newInterval[1], intervals[idx][1])
+        idx++
+    }
+
+    result.push(newInterval)
+    while (idx < intervals.length) {
+        result.push(intervals[idx])
+        idx++
+    }
+    return result
+};
 ```
 
 ## STEP3
